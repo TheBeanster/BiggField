@@ -2,7 +2,8 @@
 #include <SDL.h>
 
 #include "system.h"
-#include "graphics.h"
+
+#include "big.h"
 
 
 
@@ -17,10 +18,9 @@ int main(int argc, char** argv)
 		UpdateInputs();
 		if (system_inputs & SYSINP_EXIT) break;
 
-		ClearScreen();
+		BigUpdate(1.0f / 60.0f);
 
-		SetColor(255, 0, 0, 255);
-		FillRect(mousex, mousey, 10, 10);
+		BigRender();
 
 		UpdateWindow();
 	}

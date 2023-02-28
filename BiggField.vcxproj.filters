@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{6d15e9d8-30c1-4bc1-862f-8eee491f95b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Big">
+      <UniqueIdentifier>{0663acf8-80f0-412c-aa20-f29374fdc714}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -30,6 +33,9 @@
     <ClCompile Include="graphics.c">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="big.c">
+      <Filter>Source Files\Big</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utility.h">
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="graphics.h">
       <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="big.h">
+      <Filter>Source Files\Big</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
