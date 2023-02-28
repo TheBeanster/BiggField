@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="graphics.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="system.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphics.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>

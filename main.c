@@ -2,6 +2,7 @@
 #include <SDL.h>
 
 #include "system.h"
+#include "graphics.h"
 
 
 
@@ -16,9 +17,10 @@ int main(int argc, char** argv)
 		UpdateInputs();
 		if (system_inputs & SYSINP_EXIT) break;
 
-		SDL_SetRenderTarget(main_renderer, main_texture);
-		SDL_SetRenderDrawColor(main_renderer, 255, 255, 0, 255);
-		SDL_RenderClear(main_renderer);
+		ClearScreen();
+
+		SetColor(255, 0, 0, 255);
+		FillRect(mousex, mousey, 10, 10);
 
 		UpdateWindow();
 	}

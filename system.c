@@ -8,8 +8,8 @@ SDL_Texture* main_texture = NULL;
 
 int main_window_width = 0;
 int main_window_height = 0;
-int main_texture_width = 0;
-int main_texture_height = 0;
+int screen_width = 0;
+int screen_height = 0;
 
 
 
@@ -38,7 +38,7 @@ static Bool init_main_renderer()
 	main_renderer = SDL_CreateRenderer(
 		main_window,
 		-1,
-		SDL_RENDERER_PRESENTVSYNC |
+		//SDL_RENDERER_PRESENTVSYNC |
 		SDL_RENDERER_ACCELERATED |
 		SDL_RENDERER_TARGETTEXTURE
 	);
@@ -64,8 +64,8 @@ static Bool init_main_texture(int w, int h)
 		printf("ERROR! Couldn't initialize main texture. SDL_Error() = \"%s\"\n", SDL_GetError());
 		return FALSE;
 	}
-	main_texture_width = w;
-	main_texture_height = h;
+	screen_width = w;
+	screen_height = h;
 	return TRUE;
 }
 
@@ -82,6 +82,8 @@ Bool InitSystem()
 	if (!init_main_window(640, 360))	goto onerror;
 	if (!init_main_renderer())			goto onerror;
 	if (!init_main_texture(320, 180))	goto onerror;
+
+	keyboard_inputs = (char*)SDL_GetKeyboardState(NULL);
 
 	return TRUE;
 
@@ -103,6 +105,12 @@ void UpdateWindow()
 
 SystemInputs system_inputs = 0;
 
+char* keyboard_inputs = NULL;
+
+int mousex = 0;
+int mousey = 0;
+MouseBtns mousebtns = 0;
+
 void UpdateInputs()
 {
 	SDL_Event e;
@@ -115,6 +123,26 @@ void UpdateInputs()
 		{
 		case SDL_QUIT:
 			system_inputs |= SYSINP_EXIT;
+			break;
+
+		case SDL_MOUSEMOTION:
+			SDL_GetMouseState(&mousex, &mousey);
+			mousex /= (main_window_width / (float)screen_width);
+			mousey /= (main_window_height / (float)screen_height);
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+			if (e.button.button == SDL_BUTTON_LEFT)
+				mousebtns |= MOUSEBTN_LDOWN;
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+				mousebtns |= MOUSEBTN_RDOWN;
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			if (e.button.button == SDL_BUTTON_LEFT)
+				mousebtns &= ~MOUSEBTN_LDOWN;
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+				mousebtns &= ~MOUSEBTN_RDOWN;
 			break;
 		}
 	}
