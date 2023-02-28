@@ -34,7 +34,17 @@ typedef struct Entity
 
 
 
-Entity* SpawnEntity(EntityType type, float x, float y);
+extern List world_entities;
+
+void UpdateWorldEntities(float dt);
+
+void RenderWorldEntities();
+
+
+
+Entity* CreateEntity(EntityType type, float x, float y);
+
+void DestroyEntity(Entity* e);
 
 void UpdateEntity(Entity* e, float dt);
 

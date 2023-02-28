@@ -6,9 +6,64 @@
 
 
 
-Entity* SpawnEntity(EntityType type, float x, float y)
+List world_entities = { 0 };
+
+
+
+void UpdateWorldEntities(float dt)
 {
-	return nullptr;
+	Entity* iterator = world_entities.begin;
+	while (iterator)
+	{
+		UpdateEntity(iterator, dt);
+		iterator = iterator->next;
+	}
+
+	iterator = world_entities.begin;
+	while (iterator)
+	{
+		if (iterator->flags & EF_DELETE)
+		{
+			Entity* del = iterator;
+			iterator = iterator->next;
+			UnlinkFromList(&world_entities, del);
+			DestroyEntity(del);
+		} else
+			iterator = iterator->next;
+	}
+}
+
+
+
+void RenderWorldEntities()
+{
+	Entity* iterator = world_entities.begin;
+	while (iterator)
+	{
+		RenderEntity(iterator);
+		iterator = iterator->next;
+	}
+}
+
+
+
+
+
+Entity* CreateEntity(EntityType type, float x, float y)
+{
+	Entity* e = ALLOC_TYPE(Entity);
+	e->type = type;
+	e->x = x;
+	e->y = y;
+	e->flags = 0;
+	PushBackList(&world_entities, e);
+	return e;
+}
+
+
+
+void DestroyEntity(Entity* e)
+{
 }
 
 
