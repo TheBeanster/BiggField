@@ -22,6 +22,12 @@
     <Filter Include="Source Files\Big">
       <UniqueIdentifier>{0663acf8-80f0-412c-aa20-f29374fdc714}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Big\Entity">
+      <UniqueIdentifier>{11af9e9c-0016-4315-8aaa-ee58b9f4492b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{8cb13eb1-337d-49fa-a140-2cba7b6c681f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -36,11 +42,14 @@
     <ClCompile Include="big.c">
       <Filter>Source Files\Big</Filter>
     </ClCompile>
+    <ClCompile Include="entity.c">
+      <Filter>Source Files\Big\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utility.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="system.h">
       <Filter>Source Files\System</Filter>
     </ClInclude>
@@ -49,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="big.h">
       <Filter>Source Files\Big</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Source Files\Big\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Source Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

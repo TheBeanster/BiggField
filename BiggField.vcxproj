@@ -152,12 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="big.c" />
+    <ClCompile Include="entity.c" />
     <ClCompile Include="graphics.c" />
+    <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="system.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="big.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="utility.h" />

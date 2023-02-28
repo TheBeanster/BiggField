@@ -36,3 +36,36 @@ typedef enum
 	TRUE = 1
 } Bool;
 
+
+
+typedef struct ListNode
+{
+	struct ListNode* prev;
+	struct ListNode* next;
+} ListNode;
+
+typedef struct
+{
+	ListNode*	begin;
+	ListNode*	end;
+	int			count;
+} List;
+
+#define ListLinksHeader(type) struct type* prev; struct type* next
+
+
+
+void PushFrontList(List* const list, ListNode* const node);
+void PushBackList(List* const list, ListNode* const	node);
+void* PopFrontList(List* const	list);
+void* PopBackList(List* const list);
+void UnlinkFromList(List* const	list, ListNode* const node);
+
+/// @brief Removes all elements from a list and calling the destroy_func on every element.
+/// This does not free the list itself, only empties it.
+/// @param list Pointer to the list to empty.
+/// @param destroy_func Pointer to a destructor function, or NULL to use FREE().
+void ClearList(
+	List* const list,
+	void(*destroy_func)(void*)
+);
