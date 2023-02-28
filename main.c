@@ -15,22 +15,24 @@ int main(int argc, char** argv)
 
 	if (!BigInit()) return 2;
 
-	unsigned int ticks_start = 0;
-	unsigned int ticks_end = 0;
+	unsigned long long timer_start = SDL_GetPerformanceCounter();
+	unsigned long long timer_end = 0;
+
+	float totaltime = 0.0f;
 
 	while (1)
 	{
+		timer_end = SDL_GetPerformanceCounter();
+		float dt = (((float)(timer_end - timer_start)) / (float)SDL_GetPerformanceFrequency());
+		totaltime += dt;
+		printf("FPS = %f, dt = %f, totaltime = %f, preffreq = %i\n", 1.0f / dt, dt, totaltime, SDL_GetPerformanceFrequency());
+
 		UpdateInputs();
 		if (system_inputs & SYSINP_EXIT) break;
 
-		ticks_end = SDL_GetTicks();
-
-		float dt = ((float)(ticks_end - ticks_start)) / 1000.0f;
-		printf("dt = %f\n", dt);
-
 		BigUpdate(dt);
 
-		ticks_start = SDL_GetTicks();
+		timer_start = SDL_GetPerformanceCounter();
 
 		BigRender();
 
