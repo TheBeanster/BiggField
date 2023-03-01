@@ -39,6 +39,8 @@ void UpdateWorldEntities();
 
 void RenderWorldEntities();
 
+void ClearWorldEntities();
+
 
 
 Entity* CreateEntity(EntityType type, float x, float y);

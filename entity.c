@@ -47,6 +47,22 @@ void RenderWorldEntities()
 
 
 
+void ClearWorldEntities()
+{
+	Entity* iterator = world_entities.begin;
+	while (iterator)
+	{
+		Entity* del = iterator;
+		iterator = iterator->next;
+		DestroyEntity(del);
+	}
+	world_entities.begin = NULL;
+	world_entities.end = NULL;
+	world_entities.count = 0;
+}
+
+
+
 
 
 Entity* CreateEntity(EntityType type, float x, float y)
@@ -64,7 +80,6 @@ Entity* CreateEntity(EntityType type, float x, float y)
 
 void DestroyEntity(Entity* e)
 {
-	UnlinkFromList(&world_entities, e);
 	FREE(e);
 }
 
