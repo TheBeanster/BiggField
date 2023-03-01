@@ -152,17 +152,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="big.c" />
+    <ClCompile Include="camera.c" />
     <ClCompile Include="entity.c" />
     <ClCompile Include="graphics.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="system.c" />
+    <ClCompile Include="tilemap.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="big.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="system.h" />
+    <ClInclude Include="tilemap.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

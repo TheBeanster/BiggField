@@ -7,7 +7,7 @@ enum
 	ET_NULL,
 	ET_TESTENTITIY,
 };
-typedef unsigned char EntityType;
+typedef unsigned short EntityType;
 
 enum
 {

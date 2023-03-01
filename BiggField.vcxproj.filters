@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{8cb13eb1-337d-49fa-a140-2cba7b6c681f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Big\Entity\Mob">
+      <UniqueIdentifier>{34212da3-ad4d-4aeb-83e0-d9951dba49af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Big\Tilemap">
+      <UniqueIdentifier>{f2e5c9ca-2c0e-44ef-a6b5-f5aa0a41d645}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -48,6 +54,12 @@
     <ClCompile Include="list.c">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="tilemap.c">
+      <Filter>Source Files\Big\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.c">
+      <Filter>Source Files\Big</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
@@ -64,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="utility.h">
       <Filter>Source Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="tilemap.h">
+      <Filter>Source Files\Big\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Source Files\Big</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
