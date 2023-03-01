@@ -38,7 +38,7 @@ static Bool init_main_renderer()
 	main_renderer = SDL_CreateRenderer(
 		main_window,
 		-1,
-		//SDL_RENDERER_PRESENTVSYNC |
+		SDL_RENDERER_PRESENTVSYNC |
 		SDL_RENDERER_ACCELERATED |
 		SDL_RENDERER_TARGETTEXTURE
 	);

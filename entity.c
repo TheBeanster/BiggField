@@ -77,7 +77,7 @@ void UpdateEntity(Entity* e, float dt)
 		break;
 
 	case ET_TESTENTITIY:
-		e->x += 1.0f * dt;
+		e->x += 60.0f * dt;
 		break;
 		
 	default:
