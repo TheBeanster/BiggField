@@ -71,7 +71,7 @@ static Bool init_main_texture(int w, int h)
 
 
 
-Bool InitSystem()
+Bool SystemInit()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -89,6 +89,8 @@ Bool InitSystem()
 
 onerror:
 
+	SystemQuit();
+
 	return FALSE;
 }
 
@@ -99,6 +101,17 @@ void UpdateWindow()
 	SDL_SetRenderTarget(main_renderer, NULL);
 	SDL_RenderCopy(main_renderer, main_texture, NULL, NULL);
 	SDL_RenderPresent(main_renderer);
+}
+
+
+
+void SystemQuit()
+{
+	SDL_DestroyTexture(main_texture);
+	SDL_DestroyRenderer(main_renderer);
+	SDL_DestroyWindow(main_window);
+
+	SDL_Quit();
 }
 
 

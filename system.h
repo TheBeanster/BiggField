@@ -13,9 +13,11 @@ extern int main_window_height;
 extern int screen_width;
 extern int screen_height;
 
-Bool InitSystem();
+Bool SystemInit();
 
 void UpdateWindow();
+
+void SystemQuit();
 
 
 

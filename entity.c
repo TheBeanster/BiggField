@@ -64,6 +64,8 @@ Entity* CreateEntity(EntityType type, float x, float y)
 
 void DestroyEntity(Entity* e)
 {
+	UnlinkFromList(&world_entities, e);
+	FREE(e);
 }
 
 
