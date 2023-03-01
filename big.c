@@ -16,9 +16,9 @@ Bool BigInit()
 
 
 
-void BigUpdate(float dt)
+void BigUpdate()
 {
-	UpdateWorldEntities(dt);
+	UpdateWorldEntities();
 }
 
 

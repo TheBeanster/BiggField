@@ -4,7 +4,7 @@
 
 Bool BigInit();
 
-void BigUpdate(float dt);
+void BigUpdate();
 
 void BigRender();
 

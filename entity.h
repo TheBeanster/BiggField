@@ -22,8 +22,7 @@ typedef unsigned short EntityFlags;
 
 typedef struct Entity
 {
-	struct Entity* prev;
-	struct Entity* next;
+	ListLinksHeader(Entity);
 
 	EntityFlags flags;
 	EntityType type;
@@ -36,7 +35,7 @@ typedef struct Entity
 
 extern List world_entities;
 
-void UpdateWorldEntities(float dt);
+void UpdateWorldEntities();
 
 void RenderWorldEntities();
 
@@ -46,6 +45,6 @@ Entity* CreateEntity(EntityType type, float x, float y);
 
 void DestroyEntity(Entity* e);
 
-void UpdateEntity(Entity* e, float dt);
+void UpdateEntity(Entity* e);
 
 void RenderEntity(Entity* e);

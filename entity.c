@@ -10,12 +10,12 @@ List world_entities = { 0 };
 
 
 
-void UpdateWorldEntities(float dt)
+void UpdateWorldEntities()
 {
 	Entity* iterator = world_entities.begin;
 	while (iterator)
 	{
-		UpdateEntity(iterator, dt);
+		UpdateEntity(iterator);
 		iterator = iterator->next;
 	}
 
@@ -68,7 +68,7 @@ void DestroyEntity(Entity* e)
 
 
 
-void UpdateEntity(Entity* e, float dt)
+void UpdateEntity(Entity* e)
 {
 	switch (e->type)
 	{
@@ -77,7 +77,7 @@ void UpdateEntity(Entity* e, float dt)
 		break;
 
 	case ET_TESTENTITIY:
-		e->x += 60.0f * dt;
+		e->x += 1.f;
 		break;
 		
 	default:
