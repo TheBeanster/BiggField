@@ -1,6 +1,7 @@
 #include "graphics.h"
 
 #include "system.h"
+#include "camera.h"
 
 
 
@@ -26,4 +27,14 @@ void FillRect(int x, int y, int w, int h)
 {
 	SDL_Rect r = { x, y, w, h };
 	SDL_RenderFillRect(main_renderer, &r);
+}
+
+void DrawRectInWorld(int x, int y, int w, int h)
+{
+	DrawRect(x - camera_renderpos_x, y - camera_renderpos_y, w, h);
+}
+
+void FillRectInWorld(int x, int y, int w, int h)
+{
+	FillRect(x - camera_renderpos_x, y - camera_renderpos_y, w, h);
 }

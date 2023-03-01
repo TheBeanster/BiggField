@@ -114,7 +114,7 @@ void RenderEntity(Entity* e)
 
 	case ET_TESTENTITIY:
 		SetColor(0, 255, 0, 255);
-		FillRect(roundf(e->x), roundf(e->y), 8, 8);
+		FillRectInWorld(roundf(e->x), roundf(e->y), 8, 8);
 		break;
 
 	default:
