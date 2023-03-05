@@ -6,6 +6,19 @@
 
 
 
+const EntityType entity_types[NUM_ENTITYTYPES] =
+{
+	{ 0 },
+	{
+		"TestEntity",
+		{
+			EF_NOUPDATE
+		}
+	},
+};
+
+
+
 List world_entities = { 0 };
 
 
@@ -65,13 +78,13 @@ void ClearWorldEntities()
 
 
 
-Entity* CreateEntity(EntityType type, float x, float y)
+Entity* CreateEntity(EntityTypeID type, float x, float y)
 {
 	Entity* e = ALLOC_TYPE(Entity);
 	e->type = type;
 	e->x = x;
 	e->y = y;
-	e->flags = 0;
+	e->flags = E_TYPEINFO(e).spawnflags;
 	PushBackList(&world_entities, e);
 	return e;
 }
@@ -87,6 +100,8 @@ void DestroyEntity(Entity* e)
 
 void UpdateEntity(Entity* e)
 {
+	if (e->flags & EF_NOUPDATE) return;
+
 	switch (e->type)
 	{
 	case ET_NULL:
@@ -106,6 +121,8 @@ void UpdateEntity(Entity* e)
 
 void RenderEntity(Entity* e)
 {
+	if (e->flags & EF_NORENDER) return;
+
 	switch (e->type)
 	{
 	case ET_NULL:

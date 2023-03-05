@@ -2,21 +2,36 @@
 
 #include "utility.h"
 
-enum
-{
-	ET_NULL,
-	ET_TESTENTITIY,
-};
-typedef unsigned short EntityType;
+
 
 enum
 {
 	EF_NOUPDATE = (1 << 0),
 	EF_NORENDER = (1 << 1),
-	
+
 	EF_DELETE = (1 << 15),
 };
 typedef unsigned short EntityFlags;
+
+enum
+{
+	ET_NULL,
+	ET_TESTENTITIY,
+	NUM_ENTITYTYPES
+};
+typedef unsigned short EntityTypeID;
+
+typedef struct
+{
+	const char* name;
+	struct
+	{
+		EntityFlags spawnflags;
+	} info;
+} EntityType;
+extern const EntityType entity_types[NUM_ENTITYTYPES];
+
+#define E_TYPEINFO(entity) (entity_types[entity->type].info)
 
 
 
@@ -25,7 +40,7 @@ typedef struct Entity
 	ListLinksHeader(Entity);
 
 	EntityFlags flags;
-	EntityType type;
+	EntityTypeID type;
 
 	float x;
 	float y;
@@ -43,7 +58,7 @@ void ClearWorldEntities();
 
 
 
-Entity* CreateEntity(EntityType type, float x, float y);
+Entity* CreateEntity(EntityTypeID type, float x, float y);
 
 void DestroyEntity(Entity* e);
 
