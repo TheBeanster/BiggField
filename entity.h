@@ -76,7 +76,7 @@ typedef struct Entity
 		char offsety;
 		char w;
 		char h;
-	} htibox;
+	} hitbox;
 	
 
 } Entity;

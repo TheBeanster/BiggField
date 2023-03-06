@@ -93,10 +93,10 @@ Entity* CreateEntity(EntityTypeID type, float x, float y)
 	e->x = x;
 	e->y = y;
 	e->flags = e->type->spawnflags;
-	e->htibox.offsetx = e->type->hitbox.offsetx;
-	e->htibox.offsety = e->type->hitbox.offsety;
-	e->htibox.w = e->type->hitbox.w;
-	e->htibox.h = e->type->hitbox.h;
+	e->hitbox.offsetx = e->type->hitbox.offsetx;
+	e->hitbox.offsety = e->type->hitbox.offsety;
+	e->hitbox.w = e->type->hitbox.w;
+	e->hitbox.h = e->type->hitbox.h;
 
 	PushBackList(&world_entities, e);
 	return e;
@@ -159,9 +159,9 @@ void RenderEntity(Entity* e)
 void TestEntity_Update(Entity* e)
 {
 	printf("TestEntity_Update. e.x = %f\n", e->x);
-	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.01f;
-	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.01f;
-	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.01f;
-	if (keyboard_inputs[SDL_SCANCODE_DOWN]) e->vely += 0.01f;
+	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.002f;
+	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.002f;
+	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.002f;
+	if (keyboard_inputs[SDL_SCANCODE_DOWN]) e->vely += 0.002f;
 
 }
