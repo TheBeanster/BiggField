@@ -63,6 +63,9 @@
     <ClCompile Include="physics.c">
       <Filter>Source Files\Big\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="player.c">
+      <Filter>Source Files\Big\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
@@ -86,5 +89,10 @@
     <ClInclude Include="camera.h">
       <Filter>Source Files\Big</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testTilemapFile.bigtilemap">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

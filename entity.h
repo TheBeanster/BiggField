@@ -27,6 +27,7 @@ typedef unsigned short EntityFlags;
 enum
 {
 	ET_NULL,
+	ET_PLAYER,
 	ET_TESTENTITIY,
 	NUM_ENTITYTYPES
 };
@@ -48,7 +49,7 @@ typedef struct
 		char offsety;
 		char w;
 		char h;
-	} hitbox;
+	} clip_hitbox;
 
 	EntityUpdateFunction update_function;
 
@@ -76,7 +77,7 @@ typedef struct Entity
 		char offsety;
 		char w;
 		char h;
-	} hitbox;
+	} clip_hitbox;
 	
 
 } Entity;
@@ -105,5 +106,10 @@ void UpdateEntityPhysics(Entity* e);
 void RenderEntity(Entity* e);
 
 
+
+
+
+extern Entity* player;
+void Player_Update(Entity* e);
 
 void TestEntity_Update(Entity* e);

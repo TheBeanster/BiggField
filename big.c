@@ -15,6 +15,8 @@ Bool BigInit()
 
 	CreateEntity(ET_TESTENTITIY, 10, 10);
 
+	CreateEntity(ET_PLAYER, 30, 30);
+
 	return TRUE;
 }
 
@@ -22,8 +24,6 @@ Bool BigInit()
 
 void BigUpdate()
 {
-	ClearScreen();
-
 	UpdateWorldEntities();
 }
 
@@ -31,7 +31,8 @@ void BigUpdate()
 
 void BigRender()
 {
-	
+	ClearScreen();
+
 	UpdateCamera();
 
 	RenderTilemap();

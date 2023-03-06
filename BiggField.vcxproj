@@ -158,6 +158,7 @@
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="physics.c" />
+    <ClCompile Include="player.c" />
     <ClCompile Include="system.c" />
     <ClCompile Include="tilemap.c" />
   </ItemGroup>
@@ -169,6 +170,9 @@
     <ClInclude Include="system.h" />
     <ClInclude Include="tilemap.h" />
     <ClInclude Include="utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testTilemapFile.bigtilemap" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

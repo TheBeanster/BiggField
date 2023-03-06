@@ -13,10 +13,10 @@ float gravity = 0.01f;
 
 static void clip_entity(Entity* e)
 {
-	int x = (int)roundf(e->x) + e->hitbox.offsetx; // Integer world position
-	int y = (int)roundf(e->y) + e->hitbox.offsety; // Integer world position
-	char w = e->hitbox.w;
-	char h = e->hitbox.h;
+	int x = (int)roundf(e->x) + e->clip_hitbox.offsetx; // Integer world position
+	int y = (int)roundf(e->y) + e->clip_hitbox.offsety; // Integer world position
+	char w = e->clip_hitbox.w;
+	char h = e->clip_hitbox.h;
 	int leftx = x; // x position of left edge
 	int topy = y; // y position of top edge
 	int rightx = x + w - 1; // x position of right edge
@@ -49,7 +49,7 @@ static void clip_entity(Entity* e)
 		{
 			if (GetTileSolid(rightx >> TILE_SHIFT, (topy >> TILE_SHIFT) + i - (e->vely >= 0.0f)))
 			{
-				x = (rightx & ~TILE_MASK) - e->hitbox.offsetx - w;
+				x = (rightx & ~TILE_MASK) - e->clip_hitbox.offsetx - w;
 				clippedx = TRUE;
 				break;
 			}
@@ -61,7 +61,7 @@ static void clip_entity(Entity* e)
 		{
 			if (GetTileSolid(leftx >> TILE_SHIFT, (topy >> TILE_SHIFT) + i - (e->vely >= 0.0f)))
 			{
-				x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsetx;
+				x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsetx;
 				clippedx = TRUE;
 				break;
 			}
@@ -75,7 +75,7 @@ static void clip_entity(Entity* e)
 		{
 			if (GetTileSolid((leftx >> TILE_SHIFT) + i - (e->velx >= 0.0f), bottomy >> TILE_SHIFT))
 			{
-				y = (bottomy & ~TILE_MASK) - e->hitbox.offsety - h;
+				y = (bottomy & ~TILE_MASK) - e->clip_hitbox.offsety - h;
 				clippedy = TRUE;
 				break;
 			}
@@ -87,7 +87,7 @@ static void clip_entity(Entity* e)
 		{
 			if (GetTileSolid((leftx >> TILE_SHIFT) + i - (e->velx >= 0.0f), topy >> TILE_SHIFT))
 			{
-				y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsety;
+				y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsety;
 				clippedy = TRUE;
 				break;
 			}
@@ -98,11 +98,11 @@ static void clip_entity(Entity* e)
 	
 	if (e->velx >= 0.0f)
 	{
-		float right_grid_offset = fmodf(e->x + (float)e->hitbox.offsetx + (float)w - 0.5f, TILE_SIZE);
+		float right_grid_offset = fmodf(e->x + (float)e->clip_hitbox.offsetx + (float)w - 0.5f, TILE_SIZE);
 
 		if (e->vely >= 0.0f)
 		{
-			float bottom_grid_offset = fmodf(e->y + (float)e->hitbox.offsety + (float)h - 0.5f, TILE_SIZE);
+			float bottom_grid_offset = fmodf(e->y + (float)e->clip_hitbox.offsety + (float)h - 0.5f, TILE_SIZE);
 
 			if (GetTileSolid(rightx >> TILE_SHIFT, bottomy >> TILE_SHIFT))
 			{
@@ -113,18 +113,18 @@ static void clip_entity(Entity* e)
 				if (bottom_grid_offset > right_grid_offset * velRatio)
 				{
 					// You're in a wall
-					x = (rightx & ~TILE_MASK) - e->hitbox.offsetx - (int)w;
+					x = (rightx & ~TILE_MASK) - e->clip_hitbox.offsetx - (int)w;
 					clippedx = TRUE;
 				} else
 				{
 					// You're in a floor
-					y = (bottomy & ~TILE_MASK) - e->hitbox.offsety - (int)h;
+					y = (bottomy & ~TILE_MASK) - e->clip_hitbox.offsety - (int)h;
 					clippedy = TRUE;
 				}
 			}
 		} else
 		{
-			float top_grid_offset = fmodf(e->y + (float)e->hitbox.offsety + 0.5f, TILE_SIZE);
+			float top_grid_offset = fmodf(e->y + (float)e->clip_hitbox.offsety + 0.5f, TILE_SIZE);
 
 			if (GetTileSolid(rightx >> TILE_SHIFT, topy >> TILE_SHIFT))
 			{
@@ -135,23 +135,23 @@ static void clip_entity(Entity* e)
 				if (((float)TILE_SIZE - top_grid_offset) < right_grid_offset * velRatio)
 				{
 					// You're in a ceiling
-					y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsety;
+					y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsety;
 					clippedy = TRUE;
 				} else
 				{
 					// You're in a wall
-					x = (rightx & ~TILE_MASK) - e->hitbox.offsetx - (int)w;
+					x = (rightx & ~TILE_MASK) - e->clip_hitbox.offsetx - (int)w;
 					clippedx = TRUE;
 				}
 			}
 		}
 	} else
 	{
-		float left_grid_offset = fmodf(e->x + (float)e->hitbox.offsetx + 0.5f, TILE_SIZE);
+		float left_grid_offset = fmodf(e->x + (float)e->clip_hitbox.offsetx + 0.5f, TILE_SIZE);
 
 		if (e->vely >= 0.0f)
 		{
-			float bottom_grid_offset = fmodf(e->y + (float)e->hitbox.offsety + (float)h - 0.5f, TILE_SIZE);
+			float bottom_grid_offset = fmodf(e->y + (float)e->clip_hitbox.offsety + (float)h - 0.5f, TILE_SIZE);
 
 			if (GetTileSolid(leftx >> TILE_SHIFT, bottomy >> TILE_SHIFT))
 			{
@@ -162,18 +162,18 @@ static void clip_entity(Entity* e)
 				if (bottom_grid_offset > ((float)TILE_SIZE - left_grid_offset) * velRatio)
 				{
 					// You're in a wall
-					x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsetx;
+					x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsetx;
 					clippedx = TRUE;
 				} else
 				{
 					// You're in a floor
-					y = (bottomy & ~TILE_MASK) - e->hitbox.offsety - (int)h;
+					y = (bottomy & ~TILE_MASK) - e->clip_hitbox.offsety - (int)h;
 					clippedy = TRUE;
 				}
 			}
 		} else
 		{
-			float top_grid_offset = fmodf(e->y + (float)e->hitbox.offsety + 0.5f, TILE_SIZE);
+			float top_grid_offset = fmodf(e->y + (float)e->clip_hitbox.offsety + 0.5f, TILE_SIZE);
 
 			if (GetTileSolid(leftx >> TILE_SHIFT, topy >> TILE_SHIFT))
 			{
@@ -184,12 +184,12 @@ static void clip_entity(Entity* e)
 				if (top_grid_offset < (left_grid_offset - (float)TILE_SIZE) * vel_ratio + (float)TILE_SIZE)
 				{
 					// You're in a wall
-					x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsetx;
+					x = ((leftx + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsetx;
 					clippedx = TRUE;
 				} else
 				{
 					// You're in a ceiling
-					y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->hitbox.offsety;
+					y = ((topy + TILE_SIZE) & ~TILE_MASK) - e->clip_hitbox.offsety;
 					clippedy = TRUE;
 				}
 			}

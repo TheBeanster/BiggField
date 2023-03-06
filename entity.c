@@ -9,6 +9,20 @@
 const EntityType entity_types[NUM_ENTITYTYPES] =
 {
 	{ 0 },
+
+	{
+		ET_PLAYER,
+		"Player",
+		0,
+		{
+			-3,
+			-7,
+			6,
+			14
+		},
+		&Player_Update
+	},
+
 	{
 		ET_TESTENTITIY,
 		"TestEntity",
@@ -93,10 +107,13 @@ Entity* CreateEntity(EntityTypeID type, float x, float y)
 	e->x = x;
 	e->y = y;
 	e->flags = e->type->spawnflags;
-	e->hitbox.offsetx = e->type->hitbox.offsetx;
-	e->hitbox.offsety = e->type->hitbox.offsety;
-	e->hitbox.w = e->type->hitbox.w;
-	e->hitbox.h = e->type->hitbox.h;
+	e->clip_hitbox.offsetx = e->type->clip_hitbox.offsetx;
+	e->clip_hitbox.offsety = e->type->clip_hitbox.offsety;
+	e->clip_hitbox.w = e->type->clip_hitbox.w;
+	e->clip_hitbox.h = e->type->clip_hitbox.h;
+
+	if (type == ET_PLAYER)
+		player = e;
 
 	PushBackList(&world_entities, e);
 	return e;
@@ -142,14 +159,16 @@ void RenderEntity(Entity* e)
 		printf("ERROR! Tried to render entity of type NULL\n");
 		break;
 
-	case ET_TESTENTITIY:
-		SetColor(0, 255, 0, 255);
-		FillRectInWorld(roundf(e->x), roundf(e->y), 8, 8);
-		break;
-
 	default:
 		break;
 	}
+
+	SetColor(0, 255, 0, 255);
+	FillRectInWorld(
+		(int)roundf(e->x) + e->clip_hitbox.offsetx,
+		(int)roundf(e->y) + e->clip_hitbox.offsety,
+		e->clip_hitbox.w,
+		e->clip_hitbox.h);
 }
 
 
@@ -158,12 +177,12 @@ void RenderEntity(Entity* e)
 
 void TestEntity_Update(Entity* e)
 {
-	printf("TestEntity_Update. clipping flags = %i %i %i %i\n",
+	/*printf("TestEntity_Update. clipping flags = %i %i %i %i\n",
 		(e->flags & EF_ONCEILING) != 0,
 		(e->flags & EF_ONFLOOR) != 0,
 		(e->flags & EF_ONLWALL) != 0,
 		(e->flags & EF_ONRWALL) != 0
-	);
+	);*/
 	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.02f;
 	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.02f;
 	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.02f;
