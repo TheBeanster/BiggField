@@ -24,6 +24,14 @@ void InitDebugTilemap()
 		}
 
 		world_tilemapblocks[i]->tiles[6 | (6 << TMBLOCK_WIDTH_SHIFT)] = 1;
+		world_tilemapblocks[i]->tiles[11 | (0 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[12 | (0 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[11 | (7 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[12 | (7 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[0 | (3 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[0 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[15 | (3 << TMBLOCK_WIDTH_SHIFT)] = 0;
+		world_tilemapblocks[i]->tiles[15 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
 	}
 }
 

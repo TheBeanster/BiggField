@@ -42,4 +42,6 @@ Bool GetTileSolid(int x, int y);
 
 
 
+void UpdateTilemap();
+
 void RenderTilemap();

@@ -15,7 +15,7 @@ Bool BigInit()
 
 	CreateEntity(ET_TESTENTITIY, 10, 10);
 
-	CreateEntity(ET_PLAYER, 30, 30);
+	CreateEntity(ET_PLAYER, 300, 160);
 
 	return TRUE;
 }
