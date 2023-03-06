@@ -22,6 +22,8 @@ void InitDebugTilemap()
 				world_tilemapblocks[i]->tiles[x | (y << TMBLOCK_WIDTH_SHIFT)] = (x == 0 || y == 0 || x == TMBLOCK_WIDTH_MASK || y == TMBLOCK_HEIGHT_MASK);
 			}
 		}
+
+		world_tilemapblocks[i]->tiles[6 | (6 << TMBLOCK_WIDTH_SHIFT)] = 1;
 	}
 }
 
@@ -29,8 +31,24 @@ void InitDebugTilemap()
 
 Tile GetTile(int x, int y)
 {
-	
-	return 0;
+	if (x < 0 || x >= (WORLD_TMBLOCK_SIZE * TMBLOCK_WIDTH) ||
+		y < 0 || y >= (WORLD_TMBLOCK_SIZE * TMBLOCK_HEIGHT))
+		return 0;
+	TilemapBlock* b = world_tilemapblocks[
+		(x >> TMBLOCK_WIDTH_SHIFT) + 
+		((y >> TMBLOCK_HEIGHT_SHIFT) * WORLD_TMBLOCK_SIZE)];
+	if (!b)
+		return 0;
+	return b->tiles[
+		x & TMBLOCK_WIDTH_MASK | 
+		((y & TMBLOCK_HEIGHT_MASK) << TMBLOCK_WIDTH_SHIFT)];
+}
+
+Bool GetTileSolid(int x, int y)
+{
+	SetColor(255, 255, 0, 255);
+	DrawRectInWorld(x << TILE_SHIFT, y << TILE_SHIFT, 8, 8);
+	return GetTile(x, y) != 0;
 }
 
 

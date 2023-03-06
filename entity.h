@@ -13,6 +13,11 @@ enum
 	EF_NOCLIPPING = (1 << 3),
 	EF_NOGRAVITY = (1 << 4),
 
+	EF_ONFLOOR = (1 << 5),
+	EF_ONLWALL = (1 << 6),
+	EF_ONRWALL = (1 << 7),
+	EF_ONCEILING = (1 << 8),
+
 	EF_DELETE = (1 << 15),
 };
 typedef unsigned short EntityFlags;
@@ -94,6 +99,7 @@ void DestroyEntity(Entity* e);
 
 void UpdateEntity(Entity* e);
 
+extern float gravity;
 void UpdateEntityPhysics(Entity* e);
 
 void RenderEntity(Entity* e);

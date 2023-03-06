@@ -15,10 +15,10 @@ const EntityType entity_types[NUM_ENTITYTYPES] =
 		
 		0,
 		{
-			0,
-			0,
-			6,
-			6
+			-2,
+			-2,
+			15,
+			21
 		},
 		&TestEntity_Update
 		
@@ -154,9 +154,14 @@ void RenderEntity(Entity* e)
 
 
 
-
+#include "system.h"
 
 void TestEntity_Update(Entity* e)
 {
 	printf("TestEntity_Update. e.x = %f\n", e->x);
+	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.01f;
+	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.01f;
+	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.01f;
+	if (keyboard_inputs[SDL_SCANCODE_DOWN]) e->vely += 0.01f;
+
 }

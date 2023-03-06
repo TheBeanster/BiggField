@@ -22,6 +22,8 @@ Bool BigInit()
 
 void BigUpdate()
 {
+	ClearScreen();
+
 	UpdateWorldEntities();
 }
 
@@ -29,8 +31,7 @@ void BigUpdate()
 
 void BigRender()
 {
-	ClearScreen();
-
+	
 	UpdateCamera();
 
 	RenderTilemap();

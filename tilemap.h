@@ -38,6 +38,7 @@ void InitDebugTilemap();
 
 
 Tile GetTile(int x, int y);
+Bool GetTileSolid(int x, int y);
 
 
 
