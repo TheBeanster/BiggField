@@ -46,8 +46,6 @@ Tile GetTile(int x, int y)
 
 Bool GetTileSolid(int x, int y)
 {
-	SetColor(255, 255, 0, 255);
-	DrawRectInWorld(x << TILE_SHIFT, y << TILE_SHIFT, 8, 8);
 	return GetTile(x, y) != 0;
 }
 

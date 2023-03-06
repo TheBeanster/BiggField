@@ -7,7 +7,7 @@
 
 
 
-float gravity = 0.00f;
+float gravity = 0.01f;
 
 
 
@@ -218,9 +218,6 @@ static void clip_entity(Entity* e)
 
 		e->vely = 0.0f; 
 	}
-
-	SetColor(255, 0, 0, 255);
-	DrawRectInWorld(x, y, w, h);
 
 }
 
