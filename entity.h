@@ -9,9 +9,15 @@ enum
 	EF_NOUPDATE = (1 << 0),
 	EF_NORENDER = (1 << 1),
 
+	EF_NOPHYSICS = (1 << 2),
+	EF_NOCLIPPING = (1 << 3),
+	EF_NOGRAVITY = (1 << 4),
+
 	EF_DELETE = (1 << 15),
 };
 typedef unsigned short EntityFlags;
+
+
 
 enum
 {
@@ -21,17 +27,29 @@ enum
 };
 typedef unsigned short EntityTypeID;
 
+
+
+typedef void (*EntityUpdateFunction)(struct Entity*);
+
 typedef struct
 {
+	EntityTypeID id;
 	const char* name;
+
+	EntityFlags spawnflags;
 	struct
 	{
-		EntityFlags spawnflags;
-	} info;
-} EntityType;
-extern const EntityType entity_types[NUM_ENTITYTYPES];
+		char offsetx;
+		char offsety;
+		char w;
+		char h;
+	} hitbox;
 
-#define E_TYPEINFO(entity) (entity_types[entity->type].info)
+	EntityUpdateFunction update_function;
+
+} EntityType;
+
+extern const EntityType entity_types[NUM_ENTITYTYPES];
 
 
 
@@ -40,10 +58,22 @@ typedef struct Entity
 	ListLinksHeader(Entity);
 
 	EntityFlags flags;
-	EntityTypeID type;
+	EntityType* type;
 
 	float x;
 	float y;
+	float velx;
+	float vely;
+
+	struct
+	{
+		char offsetx;
+		char offsety;
+		char w;
+		char h;
+	} htibox;
+	
+
 } Entity;
 
 
@@ -64,4 +94,10 @@ void DestroyEntity(Entity* e);
 
 void UpdateEntity(Entity* e);
 
+void UpdateEntityPhysics(Entity* e);
+
 void RenderEntity(Entity* e);
+
+
+
+void TestEntity_Update(Entity* e);

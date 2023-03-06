@@ -60,6 +60,9 @@
     <ClCompile Include="camera.c">
       <Filter>Source Files\Big</Filter>
     </ClCompile>
+    <ClCompile Include="physics.c">
+      <Filter>Source Files\Big\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">

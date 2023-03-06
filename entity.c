@@ -10,10 +10,18 @@ const EntityType entity_types[NUM_ENTITYTYPES] =
 {
 	{ 0 },
 	{
+		ET_TESTENTITIY,
 		"TestEntity",
+		
+		0,
 		{
-			EF_NOUPDATE
-		}
+			0,
+			0,
+			6,
+			6
+		},
+		&TestEntity_Update
+		
 	},
 };
 
@@ -81,10 +89,15 @@ void ClearWorldEntities()
 Entity* CreateEntity(EntityTypeID type, float x, float y)
 {
 	Entity* e = ALLOC_TYPE(Entity);
-	e->type = type;
+	e->type = &entity_types[type];
 	e->x = x;
 	e->y = y;
-	e->flags = E_TYPEINFO(e).spawnflags;
+	e->flags = e->type->spawnflags;
+	e->htibox.offsetx = e->type->hitbox.offsetx;
+	e->htibox.offsety = e->type->hitbox.offsety;
+	e->htibox.w = e->type->hitbox.w;
+	e->htibox.h = e->type->hitbox.h;
+
 	PushBackList(&world_entities, e);
 	return e;
 }
@@ -102,19 +115,19 @@ void UpdateEntity(Entity* e)
 {
 	if (e->flags & EF_NOUPDATE) return;
 
-	switch (e->type)
+	if (e->type == ET_NULL)
 	{
-	case ET_NULL:
-		printf("ERROR! Tried to update entity of type NULL\n");
-		break;
-
-	case ET_TESTENTITIY:
-		e->x += 1.f;
-		break;
-		
-	default:
-		break;
+		printf("ERROR! : Entity type is null\n");
+		e->flags |= EF_DELETE;
+		return;
 	}
+
+	if (e->type->update_function)
+		e->type->update_function(e);
+
+	if (!(e->flags & EF_NOPHYSICS))
+		UpdateEntityPhysics(e);
+
 }
 
 
@@ -123,7 +136,7 @@ void RenderEntity(Entity* e)
 {
 	if (e->flags & EF_NORENDER) return;
 
-	switch (e->type)
+	switch (e->type->id)
 	{
 	case ET_NULL:
 		printf("ERROR! Tried to render entity of type NULL\n");
@@ -137,4 +150,13 @@ void RenderEntity(Entity* e)
 	default:
 		break;
 	}
+}
+
+
+
+
+
+void TestEntity_Update(Entity* e)
+{
+	printf("TestEntity_Update. e.x = %f\n", e->x);
 }

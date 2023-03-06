@@ -157,6 +157,7 @@
     <ClCompile Include="graphics.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="physics.c" />
     <ClCompile Include="system.c" />
     <ClCompile Include="tilemap.c" />
   </ItemGroup>
