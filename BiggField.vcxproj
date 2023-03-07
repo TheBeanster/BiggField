@@ -160,6 +160,7 @@
     <ClCompile Include="physics.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="system.c" />
+    <ClCompile Include="texture.c" />
     <ClCompile Include="tilemap.c" />
     <ClCompile Include="tilemap_load.c" />
     <ClCompile Include="worldshift.c" />
@@ -170,11 +171,15 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="system.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="tilemap.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testTilemapFile.bigtilemap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="tilemapTileTextures.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

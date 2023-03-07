@@ -1,6 +1,8 @@
 #include "tilemap.h"
 
 #include "graphics.h"
+#include "system.h"
+#include "texture.h"
 
 #include "camera.h"
 
@@ -86,6 +88,9 @@ void RenderTilemap()
 {
 	SetColor(255, 255, 255, 255);
 
+	SDL_Rect dstrect = { 0, 0, 8, 8 };
+	SDL_Rect srcrect = { 0, 0, 8, 8 };
+
 	for (int by = 0; by < WORLD_TMBLOCKLOAD_HEIGHT; by++)
 	{
 		for (int bx = 0; bx < WORLD_TMBLOCKLOAD_WIDTH; bx++)
@@ -102,7 +107,12 @@ void RenderTilemap()
 				{
 					if (block->tiles[tx | (ty << TMBLOCK_WIDTH_SHIFT)])
 					{
-						FillRect(b_posx + (tx << TILE_SHIFT), b_posy + (ty << TILE_SHIFT), 8, 8);
+						srcrect.x = 8;
+						srcrect.y = 8;
+						dstrect.x = b_posx + (tx << TILE_SHIFT);
+						dstrect.y = b_posy + (ty << TILE_SHIFT);
+						SDL_RenderCopy(main_renderer, tilemaptiles_texture, &srcrect, &dstrect);
+						//FillRect(b_posx + (tx << TILE_SHIFT), b_posy + (ty << TILE_SHIFT), 8, 8);
 					}
 				}
 			}

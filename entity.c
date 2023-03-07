@@ -177,15 +177,8 @@ void RenderEntity(Entity* e)
 
 void TestEntity_Update(Entity* e)
 {
-	/*printf("TestEntity_Update. clipping flags = %i %i %i %i\n",
-		(e->flags & EF_ONCEILING) != 0,
-		(e->flags & EF_ONFLOOR) != 0,
-		(e->flags & EF_ONLWALL) != 0,
-		(e->flags & EF_ONRWALL) != 0
-	);*/
 	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.02f;
 	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.02f;
 	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.02f;
 	if (keyboard_inputs[SDL_SCANCODE_DOWN]) e->vely += 0.02f;
-
 }

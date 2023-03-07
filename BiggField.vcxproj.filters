@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Big\Tilemap">
       <UniqueIdentifier>{f2e5c9ca-2c0e-44ef-a6b5-f5aa0a41d645}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics\Texture">
+      <UniqueIdentifier>{187239f2-001f-4b45-ae26-77e93156b4e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -72,6 +75,9 @@
     <ClCompile Include="worldshift.c">
       <Filter>Source Files\Big\Tilemap</Filter>
     </ClCompile>
+    <ClCompile Include="texture.c">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
@@ -95,10 +101,18 @@
     <ClInclude Include="camera.h">
       <Filter>Source Files\Big</Filter>
     </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testTilemapFile.bigtilemap">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="tilemapTileTextures.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

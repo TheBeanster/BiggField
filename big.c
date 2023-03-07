@@ -8,6 +8,7 @@
 #include "tilemap.h"
 
 #include "system.h"
+#include "texture.h"
 
 
 
@@ -19,9 +20,9 @@ Bool BigInit()
 {
 	OpenTilemapFile("testTilemapFile.bigtilemap");
 
-	//InitDebugTilemap();
-
 	TestLoadTilemap();
+
+	LoadTextures();
 
 	CreateEntity(ET_PLAYER, 300, 300);
 
