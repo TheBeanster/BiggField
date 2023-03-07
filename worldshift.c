@@ -11,9 +11,9 @@ int world_posy = (WORLD_TMBLOCKLOAD_HEIGHT >> 1) + 1;
 
 void ShiftTilemapAndEntities(int shiftx, int shifty)
 {
-	printf("shifting world...\n");
-
 	if (shiftx == 0 && shifty == 0) return;
+
+	printf("shifting world...\n");
 
 	world_posx += shiftx;
 	world_posy += shifty;

@@ -40,7 +40,7 @@ void BigUpdate()
 
 	UpdateWorldEntities();
 
-	printf("%i, %i\n", ((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - 2, ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - 4);
+	//printf("%i, %i\n", ((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - 2, ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - 4);
 	ShiftTilemapAndEntities(((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - 2, ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - 4);
 
 	framecount++;
