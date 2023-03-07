@@ -37,16 +37,13 @@ static int get_block_ptr(int i)
 
 
 
-/// @brief Loads the data of a block
-/// @param x World block coord 
-/// @param y World block coord
-/// @return Pointer to the new block or NULL
-static TilemapBlock* load_block(int x, int y)
+TilemapBlock* LoadBlock(int x, int y)
 {
+	printf("Loading block (%i, %i)\n", x, y);
+	
 	if (x < 0 || x >= world_block_width || y < 0 || y >= world_block_height) return NULL;
 
 	int ptr = get_block_ptr(x + (y * world_block_width));
-	printf("Loading block (%i, %i) from address %X\n", x, y, ptr);
 	if (!ptr) return NULL;
 
 	TilemapBlock* block = MALLOC(sizeof(TilemapBlock));
@@ -71,7 +68,7 @@ void TestLoadTilemap()
 	{
 		for (int x = 0; x < world_block_width; x++)
 		{
-			world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = load_block(x, y);
+			world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(x, y);
 		}
 	}
 }

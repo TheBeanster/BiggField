@@ -2,6 +2,8 @@
 
 #include "utility.h"
 
+extern int framecount;
+
 Bool BigInit();
 
 void BigUpdate();

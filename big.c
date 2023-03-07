@@ -7,6 +7,12 @@
 #include "camera.h"
 #include "tilemap.h"
 
+#include "system.h"
+
+
+
+int framecount = 0;
+
 
 
 Bool BigInit()
@@ -17,8 +23,6 @@ Bool BigInit()
 
 	TestLoadTilemap();
 
-	CreateEntity(ET_TESTENTITIY, 30, 30);
-
 	CreateEntity(ET_PLAYER, 300, 300);
 
 	return TRUE;
@@ -28,7 +32,15 @@ Bool BigInit()
 
 void BigUpdate()
 {
+	if (!(framecount & 0x1f))
+	{
+		if (keyboard_inputs[SDL_SCANCODE_D]) ShiftTilemapAndEntities(1, 0);
+		if (keyboard_inputs[SDL_SCANCODE_A]) ShiftTilemapAndEntities(-1, 0);
+	}
+
 	UpdateWorldEntities();
+
+	framecount++;
 }
 
 

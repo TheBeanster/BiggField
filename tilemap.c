@@ -10,6 +10,14 @@ TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
 
 
 
+TilemapBlock** GetWorldBlockPtr(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= WORLD_TMBLOCKLOAD_WIDTH || y >= WORLD_TMBLOCKLOAD_HEIGHT) return NULL;
+	return &world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)];
+}
+
+
+
 void InitDebugTilemap()
 {
 	for (int i = 0; i < WORLD_TMBLOCKLOAD_COUNT; i++)
@@ -69,6 +77,7 @@ Bool GetTileSolid(int x, int y)
 int world_block_width = 0;
 int world_block_height = 0;
 int world_block_count = 0;
+
 
 
 
