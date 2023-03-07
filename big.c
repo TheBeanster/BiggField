@@ -11,11 +11,15 @@
 
 Bool BigInit()
 {
-	InitDebugTilemap();
+	OpenTilemapFile("testTilemapFile.bigtilemap");
+
+	//InitDebugTilemap();
+
+	TestLoadTilemap();
 
 	CreateEntity(ET_TESTENTITIY, 10, 10);
 
-	CreateEntity(ET_PLAYER, 300, 160);
+	CreateEntity(ET_PLAYER, 300, 300);
 
 	return TRUE;
 }

@@ -2,6 +2,8 @@
 
 #include "utility.h"
 
+#include <stdio.h>
+
 
 
 typedef unsigned short Tile;
@@ -26,10 +28,11 @@ typedef struct
 
 
 
-#define WORLD_TMBLOCK_SIZE 5
-#define WORLD_TMBLOCK_COUNT (WORLD_TMBLOCK_SIZE * WORLD_TMBLOCK_SIZE)
+#define WORLD_TMBLOCKLOAD_WIDTH 5
+#define WORLD_TMBLOCKLOAD_HEIGHT 9
+#define WORLD_TMBLOCKLOAD_COUNT (WORLD_TMBLOCKLOAD_WIDTH * WORLD_TMBLOCKLOAD_HEIGHT)
 
-extern TilemapBlock* world_tilemapblocks[WORLD_TMBLOCK_COUNT];
+extern TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT];
 
 
 
@@ -42,6 +45,14 @@ Bool GetTileSolid(int x, int y);
 
 
 
-void UpdateTilemap();
+extern int world_block_width;
+extern int world_block_height;
+extern int world_block_count;
+
+extern FILE* tilemap_file;
+
+Bool OpenTilemapFile(const char* const name);
+
+void TestLoadTilemap();
 
 void RenderTilemap();

@@ -6,13 +6,13 @@
 
 
 
-TilemapBlock* world_tilemapblocks[WORLD_TMBLOCK_COUNT] = { 0 };
+TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
 
 
 
 void InitDebugTilemap()
 {
-	for (int i = 0; i < WORLD_TMBLOCK_COUNT; i++)
+	for (int i = 0; i < WORLD_TMBLOCKLOAD_COUNT; i++)
 	{
 		world_tilemapblocks[i] = MALLOC(sizeof(TilemapBlock));
 		for (int y = 0; y < TMBLOCK_HEIGHT; y++)
@@ -32,6 +32,11 @@ void InitDebugTilemap()
 		world_tilemapblocks[i]->tiles[0 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
 		world_tilemapblocks[i]->tiles[15 | (3 << TMBLOCK_WIDTH_SHIFT)] = 0;
 		world_tilemapblocks[i]->tiles[15 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
+
+		for (int j = 0; j < i; j++)
+		{
+			world_tilemapblocks[i]->tiles[((j & 7) + 1) | (1 << TMBLOCK_WIDTH_SHIFT)] = 1;
+		}
 	}
 }
 
@@ -39,12 +44,12 @@ void InitDebugTilemap()
 
 Tile GetTile(int x, int y)
 {
-	if (x < 0 || x >= (WORLD_TMBLOCK_SIZE * TMBLOCK_WIDTH) ||
-		y < 0 || y >= (WORLD_TMBLOCK_SIZE * TMBLOCK_HEIGHT))
+	if (x < 0 || x >= (WORLD_TMBLOCKLOAD_WIDTH * TMBLOCK_WIDTH) ||
+		y < 0 || y >= (WORLD_TMBLOCKLOAD_HEIGHT * TMBLOCK_HEIGHT))
 		return 0;
 	TilemapBlock* b = world_tilemapblocks[
 		(x >> TMBLOCK_WIDTH_SHIFT) + 
-		((y >> TMBLOCK_HEIGHT_SHIFT) * WORLD_TMBLOCK_SIZE)];
+		((y >> TMBLOCK_HEIGHT_SHIFT) * WORLD_TMBLOCKLOAD_WIDTH)];
 	if (!b)
 		return 0;
 	return b->tiles[
@@ -59,15 +64,24 @@ Bool GetTileSolid(int x, int y)
 
 
 
+
+
+int world_block_width = 0;
+int world_block_height = 0;
+int world_block_count = 0;
+
+
+
+
 void RenderTilemap()
 {
 	SetColor(255, 255, 255, 255);
 
-	for (int by = 0; by < WORLD_TMBLOCK_SIZE; by++)
+	for (int by = 0; by < WORLD_TMBLOCKLOAD_HEIGHT; by++)
 	{
-		for (int bx = 0; bx < WORLD_TMBLOCK_SIZE; bx++)
+		for (int bx = 0; bx < WORLD_TMBLOCKLOAD_WIDTH; bx++)
 		{
-			TilemapBlock* block = world_tilemapblocks[bx + (by * WORLD_TMBLOCK_SIZE)];
+			TilemapBlock* block = world_tilemapblocks[bx + (by * WORLD_TMBLOCKLOAD_WIDTH)];
 			if (!block) continue;
 
 			int b_posx = bx * (TMBLOCK_WIDTH * TILE_SIZE) - camera_renderpos_x;

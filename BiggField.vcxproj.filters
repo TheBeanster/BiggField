@@ -66,6 +66,9 @@
     <ClCompile Include="player.c">
       <Filter>Source Files\Big\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="tilemap_load.c">
+      <Filter>Source Files\Big\Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
