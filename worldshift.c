@@ -31,16 +31,13 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 			}
 			else
 			{
-				TilemapBlock** loadblock = GetWorldBlockPtr(WORLD_TMBLOCKLOAD_WIDTH - x - 1, y);
+				TilemapBlock** loadblock = GetWorldBlockPtr(WORLD_TMBLOCKLOAD_WIDTH - x - 1, WORLD_TMBLOCKLOAD_HEIGHT - y - 1);
 				FREE(*loadblock); // Delete the old block
 				newblocks[
 					x + 
 					(y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(
 					world_posx - (WORLD_TMBLOCKLOAD_WIDTH >> 1) - 1 + x,
 					world_posy - (WORLD_TMBLOCKLOAD_HEIGHT >> 1) - 1 + y);
-				printf("Into (%i, %i) in the sim\n",
-					(WORLD_TMBLOCKLOAD_WIDTH - 1 - x),
-					(WORLD_TMBLOCKLOAD_HEIGHT - 1 - y));
 			}
 		}
 	}
