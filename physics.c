@@ -7,7 +7,7 @@
 
 
 
-float gravity = 0.01f;
+float gravity = 0.03f;
 
 
 

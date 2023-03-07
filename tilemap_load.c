@@ -50,39 +50,26 @@ static TilemapBlock* load_block(int x, int y)
 	if (!ptr) return NULL;
 
 	TilemapBlock* block = MALLOC(sizeof(TilemapBlock));
-	for (int y = 0; y < TMBLOCK_HEIGHT; y++)
+	
+	fseek(tilemap_file, ptr, SEEK_SET);
+
+	for (int i = 0; i < TMBLOCK_COUNT >> 1; i++)
 	{
-		for (int x = 0; x < TMBLOCK_WIDTH; x++)
-		{
-			block->tiles[x | (y << TMBLOCK_WIDTH_SHIFT)] = (x == 0 || y == 0 || x == TMBLOCK_WIDTH_MASK || y == TMBLOCK_HEIGHT_MASK);
-		}
+		unsigned char byte = fgetc(tilemap_file);
+		block->tiles[(i << 1)] = (Tile)(byte & 0b00001111);
+		block->tiles[(i << 1) + 1] = (Tile)(byte >> 4);
 	}
 
-	block->tiles[6 | (6 << TMBLOCK_WIDTH_SHIFT)] = 1;
-	block->tiles[11 | (0 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[12 | (0 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[11 | (7 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[12 | (7 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[0 | (3 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[0 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[15 | (3 << TMBLOCK_WIDTH_SHIFT)] = 0;
-	block->tiles[15 | (4 << TMBLOCK_WIDTH_SHIFT)] = 0;
-
 	return block;
-
-	/*for (int i = 0; i < TMBLOCK_COUNT >> 1; i++)
-	{
-
-	}*/
 }
 
 
 
 void TestLoadTilemap()
 {
-	for (int y = 0; y < 4; y++)
+	for (int y = 0; y < world_block_height; y++)
 	{
-		for (int x = 0; x < 4; x++)
+		for (int x = 0; x < world_block_width; x++)
 		{
 			world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = load_block(x, y);
 		}

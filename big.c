@@ -17,7 +17,7 @@ Bool BigInit()
 
 	TestLoadTilemap();
 
-	CreateEntity(ET_TESTENTITIY, 10, 10);
+	CreateEntity(ET_TESTENTITIY, 30, 30);
 
 	CreateEntity(ET_PLAYER, 300, 300);
 
