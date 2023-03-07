@@ -13,8 +13,6 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 {
 	if (shiftx == 0 && shifty == 0) return;
 
-	printf("shifting world...\n");
-
 	world_posx += shiftx;
 	world_posy += shifty;
 

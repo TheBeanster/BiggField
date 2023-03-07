@@ -39,8 +39,6 @@ static int get_block_ptr(int i)
 
 TilemapBlock* LoadBlock(int x, int y)
 {
-	printf("Loading block (%i, %i)\n", x, y);
-	
 	if (x < 0 || x >= world_block_width || y < 0 || y >= world_block_height) return NULL;
 
 	int ptr = get_block_ptr(x + (y * world_block_width));
