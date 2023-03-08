@@ -8,6 +8,8 @@
 
 typedef unsigned short Tile;
 
+#define GET_TILE_STYLE(t) ((t & 0b0000111100000000) >> 8)
+
 #define TILE_SIZE 8
 #define TILE_SHIFT 3
 #define TILE_MASK 7
