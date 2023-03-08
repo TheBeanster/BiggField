@@ -39,6 +39,8 @@ void BigUpdate()
 		if (keyboard_inputs[SDL_SCANCODE_A]) ShiftTilemapAndEntities(-1, 0);
 	}
 
+	ClearScreen();
+
 	UpdateWorldEntities();
 
 	//printf("%i, %i\n", ((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - 2, ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - 4);
@@ -51,8 +53,7 @@ void BigUpdate()
 
 void BigRender()
 {
-	ClearScreen();
-
+	
 	UpdateCamera();
 
 	RenderTilemap();

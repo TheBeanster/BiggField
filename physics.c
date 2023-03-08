@@ -94,8 +94,21 @@ static void clip_entity(Entity* e)
 		}
 	}
 
+	
+
+	// Since the edge collision only sets the x and or y values and corner collision uses the edge values
+	// they need to be updated here before corner checking
+	if (clippedx)
+		if (e->velx >= 0.0f) rightx = ((x + w - 1) & ~TILE_MASK) - TILE_SIZE;
+		else leftx = (x & ~TILE_MASK);
+	if (clippedy)
+		if (e->vely >= 0.0f) bottomy = ((y + h - 1) & ~TILE_MASK) - TILE_SIZE;
+		else topy = (y & ~TILE_MASK);
+
 
 	
+	// === CORNER COLLISION ===
+
 	if (e->velx >= 0.0f)
 	{
 		float right_grid_offset = fmodf(e->x + (float)e->clip_hitbox.offsetx + (float)w - 0.5f, TILE_SIZE);
@@ -212,7 +225,10 @@ static void clip_entity(Entity* e)
 	{
 		e->y = (float)y;
 		if (e->vely >= 0.0f)
+		{
 			e->flags |= EF_ONFLOOR;
+			e->y += 0.5000001f - gravity;
+		}
 		else
 			e->flags |= EF_ONCEILING;
 
