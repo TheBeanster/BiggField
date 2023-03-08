@@ -36,6 +36,8 @@ typedef struct
 
 extern TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT];
 
+#define GET_BLOCK(x, y) world_tilemapblocks[(x) + ((y) * WORLD_TMBLOCKLOAD_WIDTH)]
+
 TilemapBlock** GetWorldBlockPtr(int x, int y);
 
 void InitDebugTilemap();
@@ -58,7 +60,8 @@ extern int world_posy;
 
 Bool OpenTilemapFile(const char* const name);
 
-TilemapBlock* LoadBlock(int x, int y);
+TilemapBlock* LoadBlock(int bx, int by);
+void DecorateBlockTiles(int bx, int by);
 
 void TestLoadTilemap();
 

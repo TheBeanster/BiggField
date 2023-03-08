@@ -81,7 +81,7 @@ Bool SystemInit()
 
 	if (!init_main_window(640, 360))	goto onerror;
 	if (!init_main_renderer())			goto onerror;
-	if (!init_main_texture(320, 180))	goto onerror;
+	if (!init_main_texture(640, 360))	goto onerror;
 
 	keyboard_inputs = (char*)SDL_GetKeyboardState(NULL);
 

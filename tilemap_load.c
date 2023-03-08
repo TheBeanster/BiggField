@@ -37,11 +37,11 @@ static int get_block_ptr(int i)
 
 
 
-TilemapBlock* LoadBlock(int x, int y)
+TilemapBlock* LoadBlock(int bx, int by)
 {
-	if (x < 0 || x >= world_block_width || y < 0 || y >= world_block_height) return NULL;
+	if (bx < 0 || bx >= world_block_width || by < 0 || by >= world_block_height) return NULL;
 
-	int ptr = get_block_ptr(x + (y * world_block_width));
+	int ptr = get_block_ptr(bx + (by * world_block_width));
 	if (!ptr) return NULL;
 
 	TilemapBlock* block = MALLOC(sizeof(TilemapBlock));
@@ -60,11 +60,32 @@ TilemapBlock* LoadBlock(int x, int y)
 
 
 
+void DecorateBlockTiles(int bx, int by)
+{
+	TilemapBlock* block = GET_BLOCK(bx, by);
+	TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
+	TilemapBlock* blockright = bx < WORLD_TMBLOCKLOAD_WIDTH - 1 ? GET_BLOCK(bx + 1, by) : NULL;
+	TilemapBlock* blockup = by > 0 ? GET_BLOCK(bx, by - 1) : NULL;
+	TilemapBlock* blockdown = by < WORLD_TMBLOCKLOAD_HEIGHT - 1 ? GET_BLOCK(bx, by + 1) : NULL;
+
+	printf("(%i, %i) : l%i, r%i, u%i, d%i\n", bx, by, blockleft, blockright, blockup, blockdown);
+
+	/*for (int y = 0; y < TMBLOCK_HEIGHT; y++)
+	{
+		for (int x = 0; x < TMBLOCK_WIDTH; x++)
+		{
+
+		}
+	}*/
+}
+
+
+
 void TestLoadTilemap()
 {
-	for (int y = 0; y < world_block_height; y++)
+	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
 	{
-		for (int x = 0; x < world_block_width; x++)
+		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
 		{
 			world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(x, y);
 		}

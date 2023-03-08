@@ -36,6 +36,9 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 					(y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(
 					world_posx - (WORLD_TMBLOCKLOAD_WIDTH >> 1) - 1 + x,
 					world_posy - (WORLD_TMBLOCKLOAD_HEIGHT >> 1) - 1 + y);
+
+				DecorateBlockTiles(x, y);
+
 			}
 		}
 	}
