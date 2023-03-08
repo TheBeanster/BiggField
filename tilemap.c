@@ -12,6 +12,14 @@ TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
 
 
 
+TilemapBlock* GetWorldBlock(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= WORLD_TMBLOCKLOAD_WIDTH || y >= WORLD_TMBLOCKLOAD_HEIGHT) return NULL;
+	return world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)];
+}
+
+
+
 TilemapBlock** GetWorldBlockPtr(int x, int y)
 {
 	if (x < 0 || y < 0 || x >= WORLD_TMBLOCKLOAD_WIDTH || y >= WORLD_TMBLOCKLOAD_HEIGHT) return NULL;

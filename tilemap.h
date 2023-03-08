@@ -36,8 +36,10 @@ typedef struct
 
 extern TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT];
 
+// Unsafe get block without out of bounds checks
 #define GET_BLOCK(x, y) world_tilemapblocks[(x) + ((y) * WORLD_TMBLOCKLOAD_WIDTH)]
 
+TilemapBlock* GetWorldBlock(int x, int y);
 TilemapBlock** GetWorldBlockPtr(int x, int y);
 
 void InitDebugTilemap();

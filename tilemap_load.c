@@ -63,20 +63,23 @@ TilemapBlock* LoadBlock(int bx, int by)
 void DecorateBlockTiles(int bx, int by)
 {
 	TilemapBlock* block = GET_BLOCK(bx, by);
-	TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
+
+	if (!block) return;
+
+	/*TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
 	TilemapBlock* blockright = bx < WORLD_TMBLOCKLOAD_WIDTH - 1 ? GET_BLOCK(bx + 1, by) : NULL;
 	TilemapBlock* blockup = by > 0 ? GET_BLOCK(bx, by - 1) : NULL;
 	TilemapBlock* blockdown = by < WORLD_TMBLOCKLOAD_HEIGHT - 1 ? GET_BLOCK(bx, by + 1) : NULL;
 
-	printf("(%i, %i) : l%i, r%i, u%i, d%i\n", bx, by, blockleft, blockright, blockup, blockdown);
-
-	/*for (int y = 0; y < TMBLOCK_HEIGHT; y++)
+	printf("(%i, %i) : l%i, r%i, u%i, d%i\n", bx, by, blockleft, blockright, blockup, blockdown);*/
+	
+	for (int y = 0; y < TMBLOCK_HEIGHT; y++)
 	{
 		for (int x = 0; x < TMBLOCK_WIDTH; x++)
 		{
-
+			block->tiles[x | (y << TMBLOCK_WIDTH_SHIFT)] = (block->tiles[x | (y << TMBLOCK_WIDTH_SHIFT)]) << 8;
 		}
-	}*/
+	}
 }
 
 
