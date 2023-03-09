@@ -46,6 +46,8 @@ TilemapBlock* LoadBlock(int bx, int by)
 
 	TilemapBlock* block = MALLOC(sizeof(TilemapBlock));
 	
+	block->decorated = FALSE;
+
 	fseek(tilemap_file, ptr, SEEK_SET);
 
 	for (int i = 0; i < TMBLOCK_COUNT >> 1; i++)
@@ -205,12 +207,12 @@ const unsigned char tiletype_neighbours[256] =
 	/*4----LDU*/ TT_TR,
 	/*4---R---*/ TT_R,
 	/*4---R--U*/ TT_UR,
-	/*4---R-D-*/ TT_DR,
-	/*4---R-DU*/ TT_TL,
+	/*4---R-D-*/ TT_DRC,
+	/*4---R-DU*/ TT_TLCD,
 	/*4---RL--*/ TT_LR_0 | TTF_VARY,
 	/*4---RL-U*/ TT_TD,
-	/*4---RLD-*/ TT_TU,
-	/*4---RLDU*/ TT_X,
+	/*4---RLD-*/ TT_TUCR,
+	/*4---RLDU*/ TT_XDR,
 	/*4--1----*/ TT_N_0 | TTF_VARY,
 	/*4--1---U*/ TT_U,
 	/*4--1--D-*/ TT_D,
@@ -222,11 +224,11 @@ const unsigned char tiletype_neighbours[256] =
 	/*4--1R---*/ TT_R,
 	/*4--1R--U*/ TT_UR,
 	/*4--1R-D-*/ TT_DR,
-	/*4--1R-DU*/ TT_TL,
+	/*4--1R-DU*/ TT_TLCD,
 	/*4--1RL--*/ TT_LR_0 | TTF_VARY,
 	/*4--1RL-U*/ TT_TDCL,
-	/*4--1RLD-*/ TT_TU,
-	/*4--1RLDU*/ TT_XUL,
+	/*4--1RLD-*/ TT_TUCR,
+	/*4--1RLDU*/ TT_XULDR,
 	/*4-2-----*/ TT_N_0 | TTF_VARY,
 	/*4-2----U*/ TT_U,
 	/*4-2---D-*/ TT_D,
@@ -237,12 +239,12 @@ const unsigned char tiletype_neighbours[256] =
 	/*4-2--LDU*/ TT_TR,
 	/*4-2-R---*/ TT_R,
 	/*4-2-R--U*/ TT_URC,
-	/*4-2-R-D-*/ TT_DR,
-	/*4-2-R-DU*/ TT_TLCU,
+	/*4-2-R-D-*/ TT_DRC,
+	/*4-2-R-DU*/ TT_TLW_0 | TTF_VARY,
 	/*4-2-RL--*/ TT_LR_0 | TTF_VARY,
 	/*4-2-RL-U*/ TT_TDCR,
-	/*4-2-RLD-*/ TT_TU,
-	/*4-2-RLDU*/ TT_XUR,
+	/*4-2-RLD-*/ TT_TUCR,
+	/*4-2-RLDU*/ TT_XL,
 	/*4-21----*/ TT_N_0 | TTF_VARY,
 	/*4-21---U*/ TT_U,
 	/*4-21--D-*/ TT_D,
@@ -253,12 +255,15 @@ const unsigned char tiletype_neighbours[256] =
 	/*4-21-LDU*/ TT_TRCU,
 	/*4-21R---*/ TT_R,
 	/*4-21R--U*/ TT_URC,
-	/*4-21R-D-*/ TT_DR,
-	/*4-21R-DU*/ TT_TLCU,
+	/*4-21R-D-*/ TT_DRC,
+	/*4-21R-DU*/ TT_TLW_0 | TTF_VARY,
 	/*4-21RL--*/ TT_LR_0 | TTF_VARY,
 	/*4-21RL-U*/ TT_TDW_0 | TTF_VARY,
-	/*4-21RLD-*/ TT_TU,
-	/*4-21RLDU*/ TT_XD,
+	/*4-21RLD-*/ TT_TUCR,
+	/*4-21RLDU*/ TT_XDLC,
+
+
+
 	/*43------*/ TT_N_0 | TTF_VARY,
 	/*43-----U*/ TT_U,
 	/*43----D-*/ TT_D,
@@ -269,12 +274,13 @@ const unsigned char tiletype_neighbours[256] =
 	/*43---LDU*/ TT_TRCD,
 	/*43--R---*/ TT_R,
 	/*43--R--U*/ TT_UR,
-	/*43--R-D-*/ TT_DR,
-	/*43--R-DU*/ TT_TL,
+	/*43--R-D-*/ TT_DRC,
+	/*43--R-DU*/ TT_TLCD,
 	/*43--RL--*/ TT_LR_0 | TTF_VARY,
 	/*43--RL-U*/ TT_TD,
-	/*43--RLD-*/ TT_TUCL,
-	/*43--RLDU*/ TT_XDL,
+	/*43--RLD-*/ TT_TUW_0 | TTF_VARY,
+	/*43--RLDU*/ TT_XU,
+
 	/*43-1----*/ TT_N_0 | TTF_VARY,
 	/*43-1---U*/ TT_U,
 	/*43-1--D-*/ TT_D,
@@ -285,12 +291,13 @@ const unsigned char tiletype_neighbours[256] =
 	/*43-1-LDU*/ TT_TRW_0 | TTF_VARY,
 	/*43-1R---*/ TT_R,
 	/*43-1R--U*/ TT_UR,
-	/*43-1R-D-*/ TT_DR,
+	/*43-1R-D-*/ TT_DRC,
 	/*43-1R-DU*/ TT_TL,
 	/*43-1RL--*/ TT_LR_0 | TTF_VARY,
 	/*43-1RL-U*/ TT_TDCL,
-	/*43-1RLD-*/ TT_TUCL,
-	/*43-1RLDU*/ TT_XR,
+	/*43-1RLD-*/ TT_TUW_0 | TTF_VARY,
+	/*43-1RLDU*/ TT_XURC,
+
 	/*432-----*/ TT_N_0 | TTF_VARY,
 	/*432----U*/ TT_U,
 	/*432---D-*/ TT_D,
@@ -301,12 +308,13 @@ const unsigned char tiletype_neighbours[256] =
 	/*432--LDU*/ TT_TRCD,
 	/*432-R---*/ TT_R,
 	/*432-R--U*/ TT_URC,
-	/*432-R-D-*/ TT_DR,
-	/*432-R-DU*/ TT_TLCU,
+	/*432-R-D-*/ TT_DRC,
+	/*432-R-DU*/ TT_TLW_0 | TTF_VARY,
 	/*432-RL--*/ TT_LR_0 | TTF_VARY,
 	/*432-RL-U*/ TT_TDCR,
-	/*432-RLD-*/ TT_TUCL,
-	/*432-RLDU*/ TT_XURDL,
+	/*432-RLD-*/ TT_TUW_0 | TTF_VARY,
+	/*432-RLDU*/ TT_XULC,
+
 	/*4321----*/ TT_N_0 | TTF_VARY,
 	/*4321---U*/ TT_U,
 	/*4321--D-*/ TT_D,
@@ -317,24 +325,25 @@ const unsigned char tiletype_neighbours[256] =
 	/*4321-LDU*/ TT_TRW_0 | TTF_VARY,
 	/*4321R---*/ TT_R,
 	/*4321R--U*/ TT_URC,
-	/*4321R-D-*/ TT_DR,
-	/*4321R-DU*/ TT_TLCU,
+	/*4321R-D-*/ TT_DRC,
+	/*4321R-DU*/ TT_TLW_0 | TTF_VARY,
 	/*4321RL--*/ TT_LR_0 | TTF_VARY,
 	/*4321RL-U*/ TT_TDW_0 | TTF_VARY,
-	/*4321RLD-*/ TT_TUCL,
-	/*4321RLDU*/ TT_XDRC,
+	/*4321RLD-*/ TT_TUW_0 | TTF_VARY,
+	/*4321RLDU*/ TT_S_0 | TTF_VARY,
 };
 
 // Unsafe get tile
-#define GET_TILE_U(x, y) block->tiles[x | (y << TMBLOCK_WIDTH_SHIFT)]
+#define GET_TILE_U(x, y) block->tiles[(x) | ((y) << TMBLOCK_WIDTH_SHIFT)]
 
 void DecorateBlockTiles(int bx, int by)
 {
 	TilemapBlock* block = GET_BLOCK(bx, by);
 
-	printf("Decorating block, %i, %i\n", bx, by);
-
 	if (!block) return;
+	if (block->decorated) return;
+
+	block->decorated = TRUE;
 
 	/*TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
 	TilemapBlock* blockright = bx < WORLD_TMBLOCKLOAD_WIDTH - 1 ? GET_BLOCK(bx + 1, by) : NULL;
@@ -350,7 +359,7 @@ void DecorateBlockTiles(int bx, int by)
 			Tile t = GET_TILE_U(x, y);
 			if (t == 0) continue;
 
-			int type = GET_TILE_U(x + 1, y + 1); // dr
+			int type = (GET_TILE_U(x + 1, y + 1) != 0); // dr
 			type <<= 1; type |= (GET_TILE_U(x - 1, y + 1) != 0); // dl
 			type <<= 1; type |= (GET_TILE_U(x + 1, y - 1) != 0); // ur
 			type <<= 1; type |= (GET_TILE_U(x - 1, y - 1) != 0); // ul
@@ -358,16 +367,82 @@ void DecorateBlockTiles(int bx, int by)
 			type <<= 1; type |= (GET_TILE_U(x - 1, y) != 0); // left
 			type <<= 1; type |= (GET_TILE_U(x, y + 1) != 0); // down
 			type <<= 1; type |= (GET_TILE_U(x, y - 1) != 0); // up
-
+			
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
 				type += (rand() & 3);
+
+			type &= 0x7F;
 
 			GET_TILE_U(x, y) = (t << 8) | (short)type;
 		}
 	}
 
 
+
+	TilemapBlock* blocku = NULL;
+	if (by > 0) blocku = GET_BLOCK(bx, by - 1);
+
+	TilemapBlock* blockd = NULL;
+	if (by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockd = GET_BLOCK(bx, by + 1);
+
+	TilemapBlock* blockl = NULL;
+	if (bx > 0) blockl = GET_BLOCK(bx - 1, by);
+
+	TilemapBlock* blockr = NULL;
+	if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1) blockr = GET_BLOCK(bx + 1, by);
+
+
+
+	for (int x = 1; x < TMBLOCK_WIDTH - 1; x++)
+	{
+		int type;
+		Tile t;
+		
+		t = GET_TILE_U(x, 0);
+		if (t != 0)
+		{
+			type = (GET_TILE_U(x + 1, 1) != 0); // dr
+			type <<= 1; type |= (GET_TILE_U(x - 1, 1) != 0); // dl
+			type <<= 1; type |= blocku ? (blocku->tiles[x + 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // ur
+			type <<= 1; type |= blocku ? (blocku->tiles[x - 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // ul
+			type <<= 1; type |= (GET_TILE_U(x + 1, 0) != 0); // right
+			type <<= 1; type |= (GET_TILE_U(x - 1, 0) != 0); // left
+			type <<= 1; type |= (GET_TILE_U(x, 1) != 0); // down
+			type <<= 1; type |= blocku ? (blocku->tiles[x + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // up
+
+			type = tiletype_neighbours[type];
+			if (type & TTF_VARY)
+				type += (rand() & 3);
+
+			type &= 0x7F;
+
+			GET_TILE_U(x, 0) = (t << 8) | (short)type;
+		}
+
+
+
+		t = GET_TILE_U(x, TMBLOCK_HEIGHT - 1);
+		if (t != 0)
+		{
+			type = (blockd ? (blockd->tiles[x] != 0) : 1); // dr
+			type <<= 1; type |= (blockd ? (blockd->tiles[x] != 0) : 1); // dl
+			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 2) != 0); // ur
+			type <<= 1; type |= (GET_TILE_U(x - 1, TMBLOCK_HEIGHT - 2) != 0); // ul
+			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 1) != 0); // right
+			type <<= 1; type |= (GET_TILE_U(x - 1, TMBLOCK_HEIGHT - 1) != 0); // left
+			type <<= 1; type |= (blockd ? (blockd->tiles[x] != 0) : 1); // down
+			type <<= 1; type |= (GET_TILE_U(x, TMBLOCK_HEIGHT - 2) != 0); // up
+
+			type = tiletype_neighbours[type];
+			if (type & TTF_VARY)
+				type += (rand() & 3);
+
+			type &= 0x7F;
+
+			GET_TILE_U(x, TMBLOCK_HEIGHT - 1) = (t << 8) | (short)type;
+		}
+	}
 }
 
 
