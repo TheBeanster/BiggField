@@ -116,8 +116,8 @@ void RenderTilemap()
 					Tile t = block->tiles[tx | (ty << TMBLOCK_WIDTH_SHIFT)];
 					if (t)
 					{
-						srcrect.x = 8;
-						srcrect.y = GET_TILE_STYLE(t) << 3;
+						srcrect.x = GET_TILE_TYPE(t) << TILE_SHIFT;
+						srcrect.y = 0;// GET_TILE_STYLE(t) << TILE_SHIFT;
 						dstrect.x = b_posx + (tx << TILE_SHIFT);
 						dstrect.y = b_posy + (ty << TILE_SHIFT);
 						SDL_RenderCopy(main_renderer, tilemaptiles_texture, &srcrect, &dstrect);

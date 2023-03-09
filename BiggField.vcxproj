@@ -181,6 +181,9 @@
   <ItemGroup>
     <Image Include="tilemapTileTextures.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="tiletypeplanning.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

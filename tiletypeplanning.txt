@@ -1,0 +1,53 @@
+N		// None
+U		// U solid
+D
+L
+R
+UD		// U and D solid
+LR
+
+// Corners
+UL		// U and L solid
+UR
+DL
+DR
+ULC		// U and L and UL solid 
+URC
+DLC
+DRC
+
+// T sections
+TU		// All but U solid
+TUCL	// Same but DL solid
+TUCR
+TD
+TDCL
+TDCR
+TL
+TLCU
+TLCD
+TR
+TRCU
+TRCD
+
+// All edges
+X
+// One corner
+XUL		// UL solid
+XUR
+XDL
+XDR
+// Two corners
+XU		// No solid corners up
+XD
+XL
+XR
+XULDR	// Up left and down right solid
+XURDL	// Up right and down left solid
+// Three corners
+XULC	// UL not solid
+XURC
+XDLC
+XDRC
+// All corners and edges
+S

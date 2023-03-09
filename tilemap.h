@@ -8,7 +8,93 @@
 
 typedef unsigned short Tile;
 
-#define GET_TILE_STYLE(t) ((t & 0b0000111100000000) >> 8)
+#define GET_TILE_STYLE(t) ((t & 0x0F00) >> 8)
+#define GET_TILE_TYPE(t) (t & 0x00FF)
+
+typedef enum
+{
+	TT_N_0,		// None
+	TT_N_1,
+	TT_N_2,
+	TT_N_3,
+	TT_U,		// U solid
+	TT_D,
+	TT_L,
+	TT_R,
+	TT_UD_0,	// U and D solid
+	TT_UD_1,
+	TT_UD_2,
+	TT_UD_3,
+	TT_LR_0,
+	TT_LR_1,
+	TT_LR_2,
+	TT_LR_3,
+
+	// Corners
+	TT_UL,		// U and L solid
+	TT_UR,
+	TT_DL,
+	TT_DR,
+	TT_ULC,		// U and L and UL solid 
+	TT_URC,
+	TT_DLC,
+	TT_DRC,
+
+	// T sections
+	TT_TU,		// All but U solid
+	TT_TUCL,	// Same but DL solid
+	TT_TUCR,
+	TT_TUW_0,	// Wall up
+	TT_TUW_1,
+	TT_TUW_2,
+	TT_TUW_3,
+	TT_TD,
+	TT_TDCL,
+	TT_TDCR,
+	TT_TDW_0,
+	TT_TDW_1,
+	TT_TDW_2,
+	TT_TDW_3,
+	TT_TL,
+	TT_TLCU,
+	TT_TLCD,
+	TT_TLW_0,
+	TT_TLW_1,
+	TT_TLW_2,
+	TT_TLW_3,
+	TT_TR,
+	TT_TRCU,
+	TT_TRCD,
+	TT_TRW_0,
+	TT_TRW_1,
+	TT_TRW_2,
+	TT_TRW_3,
+
+	// All edges
+	TT_X,
+	// One corner
+	TT_XUL,		// UL solid
+	TT_XUR,
+	TT_XDL,
+	TT_XDR,
+	// Two corners
+	TT_XU,		// No solid corners up
+	TT_XD,
+	TT_XL,
+	TT_XR,
+	TT_XULDR,	// Up left and down right solid
+	TT_XURDL,	// Up right and down left solid
+	// Three corners
+	TT_XULC,	// UL not solid
+	TT_XURC,
+	TT_XDLC,
+	TT_XDRC,
+	// All corners and edges
+	TT_S_0,
+	TT_S_1,
+	TT_S_2,
+	TT_S_3,
+} TileType;
 
 #define TILE_SIZE 8
 #define TILE_SHIFT 3

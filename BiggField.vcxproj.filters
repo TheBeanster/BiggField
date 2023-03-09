@@ -115,4 +115,9 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="tiletypeplanning.txt">
+      <Filter>Source Files\Big\Tilemap</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
