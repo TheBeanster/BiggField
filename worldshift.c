@@ -17,6 +17,7 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 	world_posy += shifty;
 
 	TilemapBlock* newblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
+	Bool decorateblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
 
 	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
 	{
@@ -35,8 +36,7 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 					world_posx - (WORLD_TMBLOCKLOAD_WIDTH >> 1) - 1 + x,
 					world_posy - (WORLD_TMBLOCKLOAD_HEIGHT >> 1) - 1 + y);
 
-				DecorateBlockTiles(x, y);
-
+				decorateblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = TRUE;
 			}
 		}
 	}
@@ -46,6 +46,9 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
 		{
 			*GetWorldBlockPtr(x, y) = newblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)];
+
+			if (decorateblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)])
+				DecorateBlockTiles(x, y);
 		}
 	}
 

@@ -64,6 +64,8 @@ void DecorateBlockTiles(int bx, int by)
 {
 	TilemapBlock* block = GET_BLOCK(bx, by);
 
+	printf("Decorating block, %i, %i\n", bx, by);
+
 	if (!block) return;
 
 	/*TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
@@ -87,10 +89,10 @@ void DecorateBlockTiles(int bx, int by)
 void TestLoadTilemap()
 {
 	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
-	{
 		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
-		{
 			world_tilemapblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(x, y);
-		}
-	}
+
+	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
+		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
+			DecorateBlockTiles(x, y);
 }
