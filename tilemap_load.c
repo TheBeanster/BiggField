@@ -334,7 +334,11 @@ const unsigned char tiletype_neighbours[256] =
 };
 
 // Unsafe get tile
-#define GET_TILE_U(x, y) block->tiles[(x) | ((y) << TMBLOCK_WIDTH_SHIFT)]
+#define GET_TILE_U(x, y) (block->tiles[(x) | ((y) << TMBLOCK_WIDTH_SHIFT)])
+#define GET_BLOCK_TILE(block, x, y) (block->tiles[(x) | ((y) << TMBLOCK_WIDTH_SHIFT)] != 0)
+#define GET_NBLOCK_TILE(block, x, y) (block ? GET_BLOCK_TILE(block, x, y) : 1)
+#define BLOCK_RIGHT (TMBLOCK_WIDTH - 1)
+#define BLOCK_BOTTOM (TMBLOCK_HEIGHT - 1)
 
 void DecorateBlockTiles(int bx, int by)
 {
@@ -345,13 +349,6 @@ void DecorateBlockTiles(int bx, int by)
 
 	block->decorated = TRUE;
 
-	/*TilemapBlock* blockleft = bx > 0 ? GET_BLOCK(bx - 1, by) : NULL;
-	TilemapBlock* blockright = bx < WORLD_TMBLOCKLOAD_WIDTH - 1 ? GET_BLOCK(bx + 1, by) : NULL;
-	TilemapBlock* blockup = by > 0 ? GET_BLOCK(bx, by - 1) : NULL;
-	TilemapBlock* blockdown = by < WORLD_TMBLOCKLOAD_HEIGHT - 1 ? GET_BLOCK(bx, by + 1) : NULL;
-
-	printf("(%i, %i) : l%i, r%i, u%i, d%i\n", bx, by, blockleft, blockright, blockup, blockdown);*/
-	
 	for (int y = 1; y < TMBLOCK_HEIGHT - 1; y++)
 	{
 		for (int x = 1; x < TMBLOCK_WIDTH - 1; x++)
@@ -400,14 +397,14 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(x, 0);
 		if (t != 0)
 		{
-			type = (GET_TILE_U(x + 1, 1) != 0); // dr
-			type <<= 1; type |= (GET_TILE_U(x - 1, 1) != 0); // dl
-			type <<= 1; type |= (blocku ? (blocku->tiles[x + 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // ur
-			type <<= 1; type |= (blocku ? (blocku->tiles[x - 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // ul
-			type <<= 1; type |= (GET_TILE_U(x + 1, 0) != 0); // right
-			type <<= 1; type |= (GET_TILE_U(x - 1, 0) != 0); // left
-			type <<= 1; type |= (GET_TILE_U(x, 1) != 0); // down
-			type <<= 1; type |= (blocku ? (blocku->tiles[x + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // up
+			type = GET_BLOCK_TILE(block, x + 1, 1); // dr
+			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 1); // dl
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x + 1, BLOCK_BOTTOM); // ur
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x - 1, BLOCK_BOTTOM); // ul
+			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, 0); // right
+			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 0); // left
+			type <<= 1; type |= GET_BLOCK_TILE(block, x, 1); // down
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x, BLOCK_BOTTOM); // up
 
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
@@ -423,14 +420,14 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(x, TMBLOCK_HEIGHT - 1);
 		if (t != 0)
 		{
-			type = (blockd ? (blockd->tiles[x + 1] != 0) : 1); // dr
-			type <<= 1; type |= (blockd ? (blockd->tiles[x - 1] != 0) : 1); // dl
-			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 2) != 0); // ur
-			type <<= 1; type |= (GET_TILE_U(x - 1, TMBLOCK_HEIGHT - 2) != 0); // ul
-			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 1) != 0); // right
-			type <<= 1; type |= (GET_TILE_U(x - 1, TMBLOCK_HEIGHT - 1) != 0); // left
-			type <<= 1; type |= (blockd ? (blockd->tiles[x] != 0) : 1); // down
-			type <<= 1; type |= (GET_TILE_U(x, TMBLOCK_HEIGHT - 2) != 0); // up
+			type = GET_NBLOCK_TILE(blockd, x + 1, 0); // dr
+			type <<= 1; type |= GET_NBLOCK_TILE(blockd, x - 1, 0); // dl
+			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM - 1); // ur
+			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM - 1); // ul
+			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM); // right
+			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM); // left
+			type <<= 1; type |= GET_NBLOCK_TILE(blockd, x, 0); // down
+			type <<= 1; type |= GET_BLOCK_TILE(block, x, BLOCK_BOTTOM - 1); // up
 
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
@@ -452,14 +449,14 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(0, y);
 		if (t != 0)
 		{
-			type = (GET_TILE_U(1, y + 1) != 0); // dr
-			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y + 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // dl
-			type <<= 1; type |= (GET_TILE_U(1, y - 1) != 0); // ur
-			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ul
-			type <<= 1; type |= (GET_TILE_U(1, y) != 0); // right
-			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // left
-			type <<= 1; type |= (GET_TILE_U(0, y + 1) != 0); // down
-			type <<= 1; type |= (GET_TILE_U(0, y - 1) != 0); // up
+			type = GET_BLOCK_TILE(block, 1, y + 1); // dr
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y + 1); // dl
+			type <<= 1; type |= GET_BLOCK_TILE(block, 1, y - 1); // ur
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y - 1); // ul
+			type <<= 1; type |= GET_BLOCK_TILE(block, 1, y); // right
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y); // left
+			type <<= 1; type |= GET_BLOCK_TILE(block, 0, y + 1); // down
+			type <<= 1; type |= GET_BLOCK_TILE(block, 0, y - 1); // up
 
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
@@ -475,14 +472,14 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(TMBLOCK_WIDTH - 1, y);
 		if (t != 0)
 		{
-			type = (blockr ? (blockr->tiles[(y + 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // dr
-			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y + 1) != 0); // dl
-			type <<= 1; type |= (blockr ? (blockr->tiles[(y - 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // ur
-			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y - 1) != 0); // ul
-			type <<= 1; type |= (blockr ? (blockr->tiles[(y) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // right
-			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y) != 0); // left
-			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, y + 1) != 0); // down
-			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, y - 1) != 0); // up
+			type = GET_NBLOCK_TILE(blockr, 0, y + 1); // dr
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y + 1); // dl
+			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y - 1); // ur
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y - 1); // ul
+			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y); // right
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y); // left
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y + 1); // down
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y - 1); // up
 
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
