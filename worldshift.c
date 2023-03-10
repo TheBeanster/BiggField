@@ -40,15 +40,13 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 	}
 
 	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
-	{
 		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
-		{
 			*GetWorldBlockPtr(x, y) = newblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)];
 
+	for (int y = 0; y < WORLD_TMBLOCKLOAD_HEIGHT; y++)
+		for (int x = 0; x < WORLD_TMBLOCKLOAD_WIDTH; x++)
 			if (!(x == 0 || y == 0 || x == (WORLD_TMBLOCKLOAD_WIDTH - 1) || y == (WORLD_TMBLOCKLOAD_HEIGHT - 1)))
 				DecorateBlockTiles(x, y);
-		}
-	}
 
 
 

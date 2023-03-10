@@ -24,7 +24,9 @@ Bool BigInit()
 
 	LoadTextures();
 
-	CreateEntity(ET_PLAYER, 300, 300);
+	CreateEntity(ET_PLAYER,
+		((WORLD_TMBLOCKLOAD_WIDTH >> 1) << (TILE_SHIFT + TMBLOCK_WIDTH_SHIFT)) - ((TMBLOCK_WIDTH >> 1) << TILE_SHIFT),
+		((WORLD_TMBLOCKLOAD_HEIGHT >> 1) << (TILE_SHIFT + TMBLOCK_HEIGHT_SHIFT)) - ((TMBLOCK_HEIGHT >> 1) << TILE_SHIFT));
 
 	return TRUE;
 }

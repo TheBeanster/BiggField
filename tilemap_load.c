@@ -292,7 +292,7 @@ const unsigned char tiletype_neighbours[256] =
 	/*43-1R---*/ TT_R,
 	/*43-1R--U*/ TT_UR,
 	/*43-1R-D-*/ TT_DRC,
-	/*43-1R-DU*/ TT_TL,
+	/*43-1R-DU*/ TT_TLCD,
 	/*43-1RL--*/ TT_LR_0 | TTF_VARY,
 	/*43-1RL-U*/ TT_TDCL,
 	/*43-1RLD-*/ TT_TUW_0 | TTF_VARY,
@@ -392,8 +392,6 @@ void DecorateBlockTiles(int bx, int by)
 	TilemapBlock* blockr = NULL;
 	if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1) blockr = GET_BLOCK(bx + 1, by);
 
-
-
 	for (int x = 1; x < TMBLOCK_WIDTH - 1; x++)
 	{
 		int type;
@@ -404,12 +402,12 @@ void DecorateBlockTiles(int bx, int by)
 		{
 			type = (GET_TILE_U(x + 1, 1) != 0); // dr
 			type <<= 1; type |= (GET_TILE_U(x - 1, 1) != 0); // dl
-			type <<= 1; type |= blocku ? (blocku->tiles[x + 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // ur
-			type <<= 1; type |= blocku ? (blocku->tiles[x - 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // ul
+			type <<= 1; type |= (blocku ? (blocku->tiles[x + 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // ur
+			type <<= 1; type |= (blocku ? (blocku->tiles[x - 1 + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // ul
 			type <<= 1; type |= (GET_TILE_U(x + 1, 0) != 0); // right
 			type <<= 1; type |= (GET_TILE_U(x - 1, 0) != 0); // left
 			type <<= 1; type |= (GET_TILE_U(x, 1) != 0); // down
-			type <<= 1; type |= blocku ? (blocku->tiles[x + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1; // up
+			type <<= 1; type |= (blocku ? (blocku->tiles[x + ((TMBLOCK_HEIGHT - 1) * TMBLOCK_WIDTH)] != 0) : 1); // up
 
 			type = tiletype_neighbours[type];
 			if (type & TTF_VARY)
@@ -425,8 +423,8 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(x, TMBLOCK_HEIGHT - 1);
 		if (t != 0)
 		{
-			type = (blockd ? (blockd->tiles[x] != 0) : 1); // dr
-			type <<= 1; type |= (blockd ? (blockd->tiles[x] != 0) : 1); // dl
+			type = (blockd ? (blockd->tiles[x + 1] != 0) : 1); // dr
+			type <<= 1; type |= (blockd ? (blockd->tiles[x - 1] != 0) : 1); // dl
 			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 2) != 0); // ur
 			type <<= 1; type |= (GET_TILE_U(x - 1, TMBLOCK_HEIGHT - 2) != 0); // ul
 			type <<= 1; type |= (GET_TILE_U(x + 1, TMBLOCK_HEIGHT - 1) != 0); // right
@@ -442,6 +440,165 @@ void DecorateBlockTiles(int bx, int by)
 
 			GET_TILE_U(x, TMBLOCK_HEIGHT - 1) = (t << 8) | (short)type;
 		}
+	}
+
+
+
+	for (int y = 1; y < TMBLOCK_HEIGHT - 1; y++)
+	{
+		int type;
+		Tile t;
+
+		t = GET_TILE_U(0, y);
+		if (t != 0)
+		{
+			type = (GET_TILE_U(1, y + 1) != 0); // dr
+			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y + 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // dl
+			type <<= 1; type |= (GET_TILE_U(1, y - 1) != 0); // ur
+			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ul
+			type <<= 1; type |= (GET_TILE_U(1, y) != 0); // right
+			type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((y) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // left
+			type <<= 1; type |= (GET_TILE_U(0, y + 1) != 0); // down
+			type <<= 1; type |= (GET_TILE_U(0, y - 1) != 0); // up
+
+			type = tiletype_neighbours[type];
+			if (type & TTF_VARY)
+				type += (rand() & 3);
+
+			type &= 0x7F;
+
+			GET_TILE_U(0, y) = (t << 8) | (short)type;
+		}
+
+
+
+		t = GET_TILE_U(TMBLOCK_WIDTH - 1, y);
+		if (t != 0)
+		{
+			type = (blockr ? (blockr->tiles[(y + 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // dr
+			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y + 1) != 0); // dl
+			type <<= 1; type |= (blockr ? (blockr->tiles[(y - 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // ur
+			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y - 1) != 0); // ul
+			type <<= 1; type |= (blockr ? (blockr->tiles[(y) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // right
+			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, y) != 0); // left
+			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, y + 1) != 0); // down
+			type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, y - 1) != 0); // up
+
+			type = tiletype_neighbours[type];
+			if (type & TTF_VARY)
+				type += (rand() & 3);
+
+			type &= 0x7F;
+
+			GET_TILE_U(TMBLOCK_WIDTH - 1, y) = (t << 8) | (short)type;
+		}
+	}
+
+
+
+	int type = 0;
+	Tile t = 0;
+
+	t = GET_TILE_U(0, 0);
+	if (t != 0)
+	{
+		TilemapBlock* blockul = NULL;
+		if (bx > 0 && by > 0) blockul = GET_BLOCK(bx - 1, by - 1);
+
+		type = (GET_TILE_U(1, 1) != 0); // dr
+		type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | (1 << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // dl
+		type <<= 1; type |= (blocku ? (blocku->tiles[1 | ((TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ur
+		type <<= 1; type |= (blockul ? (blockul->tiles[(TMBLOCK_WIDTH - 1) | ((TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ul
+		type <<= 1; type |= (GET_TILE_U(1, 0) != 0); // right
+		type <<= 1; type |= (blockl ? (blockl->tiles[TMBLOCK_WIDTH - 1] != 0) : 1); // left
+		type <<= 1; type |= (GET_TILE_U(0, 1) != 0); // down
+		type <<= 1; type |= (blocku ? (blocku->tiles[(TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // up
+
+		type = tiletype_neighbours[type];
+		if (type & TTF_VARY)
+			type += (rand() & 3);
+
+		type &= 0x7F;
+
+		GET_TILE_U(0, 0) = (t << 8) | (short)type;
+	}
+
+
+
+	t = GET_TILE_U(TMBLOCK_WIDTH - 1, 0);
+	if (t != 0)
+	{
+		TilemapBlock* blockur = NULL;
+		if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by > 0) blockur = GET_BLOCK(bx + 1, by - 1);
+
+		type = (blockr ? (blockr->tiles[(1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // dr
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, 1) != 0); // dl
+		type <<= 1; type |= (blockur ? (blockur->tiles[(TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // ur
+		type <<= 1; type |= (blocku ? (blocku->tiles[(TMBLOCK_WIDTH - 2) | ((TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ul
+		type <<= 1; type |= (blockr ? (blockr->tiles[0] != 0) : 1); // right
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, 0) != 0); // left
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, 1) != 0); // down
+		type <<= 1; type |= (blocku ? (blocku->tiles[(TMBLOCK_WIDTH - 1) | ((TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // up
+
+		type = tiletype_neighbours[type];
+		if (type & TTF_VARY)
+			type += (rand() & 3);
+
+		type &= 0x7F;
+
+		GET_TILE_U(TMBLOCK_WIDTH - 1, 0) = (t << 8) | (short)type;
+	}
+
+
+
+	t = GET_TILE_U(0, TMBLOCK_HEIGHT - 1);
+	if (t != 0)
+	{
+		TilemapBlock* blockdl = NULL;
+		if (bx > 0 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdl = GET_BLOCK(bx - 1, by + 1);
+
+		type = (blockd ? (blockd->tiles[1] != 0) : 1); // dr
+		type <<= 1; type |= (blockdl ? (blockdl->tiles[TMBLOCK_WIDTH - 1] != 0) : 1); // dl
+		type <<= 1; type |= (GET_TILE_U(1, TMBLOCK_HEIGHT - 2) != 0); // ur
+		type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((TMBLOCK_HEIGHT - 2) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // ul
+		type <<= 1; type |= (GET_TILE_U(1, TMBLOCK_HEIGHT - 1) != 0); // right
+		type <<= 1; type |= (blockl ? (blockl->tiles[(TMBLOCK_WIDTH - 1) | ((TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT)] != 0) : 1); // left
+		type <<= 1; type |= (blockd ? (blockd->tiles[0] != 0) : 1); // down
+		type <<= 1; type |= (GET_TILE_U(0, TMBLOCK_HEIGHT - 2) != 0); // up
+
+		type = tiletype_neighbours[type];
+		if (type & TTF_VARY)
+			type += (rand() & 3);
+
+		type &= 0x7F;
+
+		GET_TILE_U(0, TMBLOCK_HEIGHT - 1) = (t << 8) | (short)type;
+	}
+
+
+
+	t = GET_TILE_U(TMBLOCK_WIDTH - 1, TMBLOCK_HEIGHT - 1);
+	if (t != 0)
+	{
+		TilemapBlock* blockdr = NULL;
+		if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdr = GET_BLOCK(bx + 1, by + 1);
+
+		type = (blockdr ? (blockdr->tiles[0] != 0) : 1); // dr
+		type <<= 1; type |= (blockd ? (blockd->tiles[TMBLOCK_WIDTH - 1] != 0) : 1); // dl
+		type <<= 1; type |= (blockr ? (blockr->tiles[(TMBLOCK_HEIGHT - 2) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // ur
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, TMBLOCK_HEIGHT - 2) != 0); // ul
+		type <<= 1; type |= (blockr ? (blockr->tiles[(TMBLOCK_HEIGHT - 1) << TMBLOCK_WIDTH_SHIFT] != 0) : 1); // right
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 2, TMBLOCK_HEIGHT - 1) != 0); // left
+		type <<= 1; type |= (blockd ? (blockd->tiles[TMBLOCK_WIDTH - 1] != 0) : 1); // down
+		type <<= 1; type |= (GET_TILE_U(TMBLOCK_WIDTH - 1, TMBLOCK_HEIGHT - 2) != 0); // up
+
+		type = tiletype_neighbours[type];
+		if (type & TTF_VARY)
+			type += (rand() & 3);
+
+		type &= 0x7F;
+
+		GET_TILE_U(TMBLOCK_WIDTH - 1, TMBLOCK_HEIGHT - 1) = (t << 8) | (short)type;
 	}
 }
 
