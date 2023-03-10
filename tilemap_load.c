@@ -601,6 +601,7 @@ void DecorateBlockTiles(int bx, int by)
 		GET_TILE_U(TMBLOCK_WIDTH - 1, TMBLOCK_HEIGHT - 1) = (t << 8) | (short)type;
 	}
 
+
 }
 
 
