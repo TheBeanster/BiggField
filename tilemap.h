@@ -111,13 +111,14 @@ typedef enum
 
 typedef struct
 {
+	Bool decorated;
 	Tile tiles[TMBLOCK_COUNT];
 } TilemapBlock;
 
 
 
 #define WORLD_TMBLOCKLOAD_WIDTH 5
-#define WORLD_TMBLOCKLOAD_HEIGHT 9
+#define WORLD_TMBLOCKLOAD_HEIGHT 5
 #define WORLD_TMBLOCKLOAD_COUNT (WORLD_TMBLOCKLOAD_WIDTH * WORLD_TMBLOCKLOAD_HEIGHT)
 
 extern TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT];
