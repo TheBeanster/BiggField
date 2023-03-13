@@ -94,7 +94,7 @@ int world_block_count = 0;
 
 void RenderTilemap()
 {
-	SetColor(255, 255, 255, 255);
+	SetColor(0, 0, 0, 255);
 
 	SDL_Rect dstrect = { 0, 0, 8, 8 };
 	SDL_Rect srcrect = { 0, 0, 8, 8 };
@@ -104,24 +104,34 @@ void RenderTilemap()
 		for (int bx = 0; bx < WORLD_TMBLOCKLOAD_WIDTH; bx++)
 		{
 			TilemapBlock* block = world_tilemapblocks[bx + (by * WORLD_TMBLOCKLOAD_WIDTH)];
-			if (!block) continue;
-
 			int b_posx = bx * (TMBLOCK_WIDTH * TILE_SIZE) - camera_renderpos_x;
 			int b_posy = by * (TMBLOCK_HEIGHT * TILE_SIZE) - camera_renderpos_y;
 
-			for (int ty = 0; ty < TMBLOCK_HEIGHT; ty++)
+			if (!block)
 			{
-				for (int tx = 0; tx < TMBLOCK_WIDTH; tx++)
+				FillRect(b_posx, b_posy, TMBLOCK_WIDTH << TILE_SHIFT, TMBLOCK_HEIGHT << TILE_SHIFT);
+			} else
+			{
+				for (int ty = 0; ty < TMBLOCK_HEIGHT; ty++)
 				{
-					Tile t = block->tiles[tx | (ty << TMBLOCK_WIDTH_SHIFT)];
-					if (t)
+					for (int tx = 0; tx < TMBLOCK_WIDTH; tx++)
 					{
-						srcrect.x = GET_TILE_TYPE(t) << TILE_SHIFT;
-						srcrect.y = 0;// GET_TILE_STYLE(t) << TILE_SHIFT;
-						dstrect.x = b_posx + (tx << TILE_SHIFT);
-						dstrect.y = b_posy + (ty << TILE_SHIFT);
-						SDL_RenderCopy(main_renderer, tilemaptiles_texture, &srcrect, &dstrect);
-						//FillRect(b_posx + (tx << TILE_SHIFT), b_posy + (ty << TILE_SHIFT), 8, 8);
+						Tile t = block->tiles[tx | (ty << TMBLOCK_WIDTH_SHIFT)];
+						if (t)
+						{
+							if (t == 0xFFFF)
+							{
+								FillRect(b_posx + (tx << TILE_SHIFT), b_posy + (ty << TILE_SHIFT), 8, 8);
+							} else
+							{
+								srcrect.x = GET_TILE_TYPE(t) << TILE_SHIFT;
+								srcrect.y = (GET_TILE_STYLE(t) - 1) << TILE_SHIFT;
+								dstrect.x = b_posx + (tx << TILE_SHIFT);
+								dstrect.y = b_posy + (ty << TILE_SHIFT);
+								SDL_RenderCopy(main_renderer, tilemaptiles_texture, &srcrect, &dstrect);
+							}
+							//FillRect(b_posx + (tx << TILE_SHIFT), b_posy + (ty << TILE_SHIFT), 8, 8);
+						}
 					}
 				}
 			}

@@ -8,7 +8,7 @@
 void ClearScreen()
 {
 	SDL_SetRenderTarget(main_renderer, main_texture);
-	SDL_SetRenderDrawColor(main_renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(main_renderer, 7, 0, 23, 255);
 	SDL_RenderClear(main_renderer);
 }
 

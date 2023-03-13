@@ -370,17 +370,22 @@ void DecorateBlockTiles(int bx, int by)
 		for (int x = 1; x < TMBLOCK_WIDTH - 1; x++)
 		{
 			Tile t = GET_TILE_U(x, y);
-			if (t == 0) continue;
-
-			int type = (GET_TILE_U(x + 1, y + 1) != 0); // dr
-			type <<= 1; type |= (GET_TILE_U(x - 1, y + 1) != 0); // dl
-			type <<= 1; type |= (GET_TILE_U(x + 1, y - 1) != 0); // ur
-			type <<= 1; type |= (GET_TILE_U(x - 1, y - 1) != 0); // ul
-			type <<= 1; type |= (GET_TILE_U(x + 1, y) != 0); // right
-			type <<= 1; type |= (GET_TILE_U(x - 1, y) != 0); // left
-			type <<= 1; type |= (GET_TILE_U(x, y + 1) != 0); // down
-			type <<= 1; type |= (GET_TILE_U(x, y - 1) != 0); // up
-			UPDATE_TILE(x, y);
+			if (t != 0)
+			{
+				if (t == 15) GET_TILE_U(x, y) = 0xFFFF;
+				else
+				{
+					int type = (GET_TILE_U(x + 1, y + 1) != 0); // dr
+					type <<= 1; type |= (GET_TILE_U(x - 1, y + 1) != 0); // dl
+					type <<= 1; type |= (GET_TILE_U(x + 1, y - 1) != 0); // ur
+					type <<= 1; type |= (GET_TILE_U(x - 1, y - 1) != 0); // ul
+					type <<= 1; type |= (GET_TILE_U(x + 1, y) != 0); // right
+					type <<= 1; type |= (GET_TILE_U(x - 1, y) != 0); // left
+					type <<= 1; type |= (GET_TILE_U(x, y + 1) != 0); // down
+					type <<= 1; type |= (GET_TILE_U(x, y - 1) != 0); // up
+					UPDATE_TILE(x, y);
+				}
+			}
 		}
 	}
 
@@ -406,31 +411,39 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(x, 0);
 		if (t != 0)
 		{
-			type = GET_BLOCK_TILE(block, x + 1, 1); // dr
-			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 1); // dl
-			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x + 1, BLOCK_BOTTOM); // ur
-			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x - 1, BLOCK_BOTTOM); // ul
-			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, 0); // right
-			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 0); // left
-			type <<= 1; type |= GET_BLOCK_TILE(block, x, 1); // down
-			type <<= 1; type |= GET_NBLOCK_TILE(blocku, x, BLOCK_BOTTOM); // up
-			UPDATE_TILE(x, 0);
+			if (t == 15) GET_TILE_U(x, 0) = 0xFFFF;
+			else
+			{
+				type = GET_BLOCK_TILE(block, x + 1, 1); // dr
+				type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 1); // dl
+				type <<= 1; type |= GET_NBLOCK_TILE(blocku, x + 1, BLOCK_BOTTOM); // ur
+				type <<= 1; type |= GET_NBLOCK_TILE(blocku, x - 1, BLOCK_BOTTOM); // ul
+				type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, 0); // right
+				type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, 0); // left
+				type <<= 1; type |= GET_BLOCK_TILE(block, x, 1); // down
+				type <<= 1; type |= GET_NBLOCK_TILE(blocku, x, BLOCK_BOTTOM); // up
+				UPDATE_TILE(x, 0);
+			}
 		}
 
 
 
-		t = GET_TILE_U(x, TMBLOCK_HEIGHT - 1);
+		t = GET_TILE_U(x, BLOCK_BOTTOM);
 		if (t != 0)
 		{
-			type = GET_NBLOCK_TILE(blockd, x + 1, 0); // dr
-			type <<= 1; type |= GET_NBLOCK_TILE(blockd, x - 1, 0); // dl
-			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM - 1); // ur
-			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM - 1); // ul
-			type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM); // right
-			type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM); // left
-			type <<= 1; type |= GET_NBLOCK_TILE(blockd, x, 0); // down
-			type <<= 1; type |= GET_BLOCK_TILE(block, x, BLOCK_BOTTOM - 1); // up
-			UPDATE_TILE(x, BLOCK_BOTTOM);
+			if (t == 15) GET_TILE_U(x, BLOCK_BOTTOM) = 0xFFFF;
+			else
+			{
+				type = GET_NBLOCK_TILE(blockd, x + 1, 0); // dr
+				type <<= 1; type |= GET_NBLOCK_TILE(blockd, x - 1, 0); // dl
+				type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM - 1); // ur
+				type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM - 1); // ul
+				type <<= 1; type |= GET_BLOCK_TILE(block, x + 1, BLOCK_BOTTOM); // right
+				type <<= 1; type |= GET_BLOCK_TILE(block, x - 1, BLOCK_BOTTOM); // left
+				type <<= 1; type |= GET_NBLOCK_TILE(blockd, x, 0); // down
+				type <<= 1; type |= GET_BLOCK_TILE(block, x, BLOCK_BOTTOM - 1); // up
+				UPDATE_TILE(x, BLOCK_BOTTOM);
+			}
 		}
 	}
 
@@ -444,31 +457,39 @@ void DecorateBlockTiles(int bx, int by)
 		t = GET_TILE_U(0, y);
 		if (t != 0)
 		{
-			type = GET_BLOCK_TILE(block, 1, y + 1); // dr
-			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y + 1); // dl
-			type <<= 1; type |= GET_BLOCK_TILE(block, 1, y - 1); // ur
-			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y - 1); // ul
-			type <<= 1; type |= GET_BLOCK_TILE(block, 1, y); // right
-			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y); // left
-			type <<= 1; type |= GET_BLOCK_TILE(block, 0, y + 1); // down
-			type <<= 1; type |= GET_BLOCK_TILE(block, 0, y - 1); // up
-			UPDATE_TILE(0, y);
+			if (t == 15) GET_TILE_U(0, y) = 0xFFFF;
+			else
+			{
+				type = GET_BLOCK_TILE(block, 1, y + 1); // dr
+				type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y + 1); // dl
+				type <<= 1; type |= GET_BLOCK_TILE(block, 1, y - 1); // ur
+				type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y - 1); // ul
+				type <<= 1; type |= GET_BLOCK_TILE(block, 1, y); // right
+				type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, y); // left
+				type <<= 1; type |= GET_BLOCK_TILE(block, 0, y + 1); // down
+				type <<= 1; type |= GET_BLOCK_TILE(block, 0, y - 1); // up
+				UPDATE_TILE(0, y);
+			}
 		}
 
 
 
-		t = GET_TILE_U(TMBLOCK_WIDTH - 1, y);
+		t = GET_TILE_U(BLOCK_RIGHT, y);
 		if (t != 0)
 		{
-			type = GET_NBLOCK_TILE(blockr, 0, y + 1); // dr
-			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y + 1); // dl
-			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y - 1); // ur
-			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y - 1); // ul
-			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y); // right
-			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y); // left
-			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y + 1); // down
-			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y - 1); // up
-			UPDATE_TILE(BLOCK_RIGHT, y);
+			if (t == 15) GET_TILE_U(BLOCK_RIGHT, y) = 0xFFFF;
+			else
+			{
+				type = GET_NBLOCK_TILE(blockr, 0, y + 1); // dr
+				type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y + 1); // dl
+				type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y - 1); // ur
+				type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y - 1); // ul
+				type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, y); // right
+				type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, y); // left
+				type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y + 1); // down
+				type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, y - 1); // up
+				UPDATE_TILE(BLOCK_RIGHT, y);
+			}
 		}
 	}
 
@@ -481,78 +502,94 @@ void DecorateBlockTiles(int bx, int by)
 	t = GET_TILE_U(0, 0);
 	if (t != 0)
 	{
-		TilemapBlock* blockul = NULL;
-		if (bx > 0 && by > 0) blockul = GET_BLOCK(bx - 1, by - 1);
+		if (t == 15) GET_TILE_U(0, 0) = 0xFFFF;
+		else
+		{
+			TilemapBlock* blockul = NULL;
+			if (bx > 0 && by > 0) blockul = GET_BLOCK(bx - 1, by - 1);
 
-		type = GET_BLOCK_TILE(block, 1, 1); // dr
-		type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, 1); // dl
-		type <<= 1; type |= GET_NBLOCK_TILE(blocku, 1, BLOCK_BOTTOM); // ur
-		type <<= 1; type |= GET_NBLOCK_TILE(blockul, BLOCK_RIGHT, BLOCK_BOTTOM); // ul
-		type <<= 1; type |= GET_BLOCK_TILE(block, 1, 0); // right
-		type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, 0); // left
-		type <<= 1; type |= GET_BLOCK_TILE(block, 0, 1); // down
-		type <<= 1; type |= GET_NBLOCK_TILE(blocku, 0, BLOCK_BOTTOM); // up
-		UPDATE_TILE(0, 0);
+			type = GET_BLOCK_TILE(block, 1, 1); // dr
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, 1); // dl
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, 1, BLOCK_BOTTOM); // ur
+			type <<= 1; type |= GET_NBLOCK_TILE(blockul, BLOCK_RIGHT, BLOCK_BOTTOM); // ul
+			type <<= 1; type |= GET_BLOCK_TILE(block, 1, 0); // right
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, 0); // left
+			type <<= 1; type |= GET_BLOCK_TILE(block, 0, 1); // down
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, 0, BLOCK_BOTTOM); // up
+			UPDATE_TILE(0, 0);
+		}
 	}
 
 
 
 	// ur
-	t = GET_TILE_U(TMBLOCK_WIDTH - 1, 0);
+	t = GET_TILE_U(BLOCK_RIGHT, 0);
 	if (t != 0)
 	{
-		TilemapBlock* blockur = NULL;
-		if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by > 0) blockur = GET_BLOCK(bx + 1, by - 1);
+		if (t == 15) GET_TILE_U(BLOCK_RIGHT, 0) = 0xFFFF;
+		else
+		{
+			TilemapBlock* blockur = NULL;
+			if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by > 0) blockur = GET_BLOCK(bx + 1, by - 1);
 
-		type = GET_NBLOCK_TILE(blockr, 0, 1); // dr
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, 1); // dl
-		type <<= 1; type |= GET_NBLOCK_TILE(blockur, 0, BLOCK_BOTTOM); // ur
-		type <<= 1; type |= GET_NBLOCK_TILE(blocku, BLOCK_RIGHT - 1, BLOCK_BOTTOM); // ul
-		type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, 0); // right
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, 0); // left
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, 1); // down
-		type <<= 1; type |= GET_NBLOCK_TILE(blocku, BLOCK_RIGHT, BLOCK_BOTTOM); // up
-		UPDATE_TILE(BLOCK_RIGHT, 0);
+			type = GET_NBLOCK_TILE(blockr, 0, 1); // dr
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, 1); // dl
+			type <<= 1; type |= GET_NBLOCK_TILE(blockur, 0, BLOCK_BOTTOM); // ur
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, BLOCK_RIGHT - 1, BLOCK_BOTTOM); // ul
+			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, 0); // right
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, 0); // left
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, 1); // down
+			type <<= 1; type |= GET_NBLOCK_TILE(blocku, BLOCK_RIGHT, BLOCK_BOTTOM); // up
+			UPDATE_TILE(BLOCK_RIGHT, 0);
+		}
 	}
 
 
 
 	// dl
-	t = GET_TILE_U(0, TMBLOCK_HEIGHT - 1);
+	t = GET_TILE_U(0, BLOCK_BOTTOM);
 	if (t != 0)
 	{
-		TilemapBlock* blockdl = NULL;
-		if (bx > 0 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdl = GET_BLOCK(bx - 1, by + 1);
+		if (t == 15) GET_TILE_U(0, BLOCK_BOTTOM) = 0xFFFF;
+		else
+		{
+			TilemapBlock* blockdl = NULL;
+			if (bx > 0 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdl = GET_BLOCK(bx - 1, by + 1);
 
-		type = GET_NBLOCK_TILE(blockd, 1, 0); // dr
-		type <<= 1; type |= GET_NBLOCK_TILE(blockdl, BLOCK_RIGHT, 0); // dl
-		type <<= 1; type |= GET_BLOCK_TILE(block, 1, BLOCK_BOTTOM - 1); // ur
-		type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, BLOCK_BOTTOM - 1); // ul
-		type <<= 1; type |= GET_BLOCK_TILE(block, 1, BLOCK_BOTTOM); // right
-		type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, BLOCK_BOTTOM); // left
-		type <<= 1; type |= GET_NBLOCK_TILE(blockd, 0, 0); // down
-		type <<= 1; type |= GET_BLOCK_TILE(block, 0, BLOCK_BOTTOM - 1); // up
-		UPDATE_TILE(0, BLOCK_BOTTOM);
+			type = GET_NBLOCK_TILE(blockd, 1, 0); // dr
+			type <<= 1; type |= GET_NBLOCK_TILE(blockdl, BLOCK_RIGHT, 0); // dl
+			type <<= 1; type |= GET_BLOCK_TILE(block, 1, BLOCK_BOTTOM - 1); // ur
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, BLOCK_BOTTOM - 1); // ul
+			type <<= 1; type |= GET_BLOCK_TILE(block, 1, BLOCK_BOTTOM); // right
+			type <<= 1; type |= GET_NBLOCK_TILE(blockl, BLOCK_RIGHT, BLOCK_BOTTOM); // left
+			type <<= 1; type |= GET_NBLOCK_TILE(blockd, 0, 0); // down
+			type <<= 1; type |= GET_BLOCK_TILE(block, 0, BLOCK_BOTTOM - 1); // up
+			UPDATE_TILE(0, BLOCK_BOTTOM);
+		}
 	}
 
 
 
 	// dr
-	t = GET_TILE_U(TMBLOCK_WIDTH - 1, TMBLOCK_HEIGHT - 1);
+	t = GET_TILE_U(BLOCK_RIGHT, BLOCK_BOTTOM);
 	if (t != 0)
 	{
-		TilemapBlock* blockdr = NULL;
-		if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdr = GET_BLOCK(bx + 1, by + 1);
+		if (t == 15) GET_TILE_U(BLOCK_RIGHT, BLOCK_BOTTOM) = 0xFFFF;
+		else
+		{
+			TilemapBlock* blockdr = NULL;
+			if (bx < WORLD_TMBLOCKLOAD_WIDTH - 1 && by < WORLD_TMBLOCKLOAD_HEIGHT - 1) blockdr = GET_BLOCK(bx + 1, by + 1);
 
-		type = GET_NBLOCK_TILE(blockdr, 0, 0); // dr
-		type <<= 1; type |= GET_NBLOCK_TILE(blockd, BLOCK_RIGHT - 1, 0); // dl
-		type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, BLOCK_BOTTOM - 1); // ur
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, BLOCK_BOTTOM - 1); // ul
-		type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, BLOCK_BOTTOM); // right
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, BLOCK_BOTTOM); // left
-		type <<= 1; type |= GET_NBLOCK_TILE(blockd, BLOCK_RIGHT, 0); // down
-		type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, BLOCK_BOTTOM - 1); // up
-		UPDATE_TILE(BLOCK_RIGHT, BLOCK_BOTTOM);
+			type = GET_NBLOCK_TILE(blockdr, 0, 0); // dr
+			type <<= 1; type |= GET_NBLOCK_TILE(blockd, BLOCK_RIGHT - 1, 0); // dl
+			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, BLOCK_BOTTOM - 1); // ur
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, BLOCK_BOTTOM - 1); // ul
+			type <<= 1; type |= GET_NBLOCK_TILE(blockr, 0, BLOCK_BOTTOM); // right
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT - 1, BLOCK_BOTTOM); // left
+			type <<= 1; type |= GET_NBLOCK_TILE(blockd, BLOCK_RIGHT, 0); // down
+			type <<= 1; type |= GET_BLOCK_TILE(block, BLOCK_RIGHT, BLOCK_BOTTOM - 1); // up
+			UPDATE_TILE(BLOCK_RIGHT, BLOCK_BOTTOM);
+		}
 	}
 
 
