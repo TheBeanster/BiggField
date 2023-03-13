@@ -113,6 +113,8 @@ typedef struct
 {
 	Bool decorated;
 	Tile tiles[TMBLOCK_COUNT];
+
+	List entities;
 } TilemapBlock;
 
 

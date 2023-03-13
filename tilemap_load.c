@@ -45,8 +45,16 @@ TilemapBlock* LoadBlock(int bx, int by)
 	if (!ptr) return NULL;
 
 	TilemapBlock* block = MALLOC(sizeof(TilemapBlock));
-	
+	if (!block)
+	{
+		printf("ERROR! : Couldn't allocate memory for tilemap block!\n");
+		return NULL;
+	}
+
 	block->decorated = FALSE;
+	block->entities.begin = NULL;
+	block->entities.end = NULL;
+	block->entities.count = 0;
 
 	fseek(tilemap_file, ptr, SEEK_SET);
 

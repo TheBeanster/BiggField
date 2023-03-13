@@ -49,6 +49,55 @@ const EntityType entity_types[NUM_ENTITYTYPES] =
 
 
 
+
+
+static TilemapBlock* get_tilemapblock(float x, float y)
+{
+	if (x < 0 || y < 0) return NULL;
+
+	int blockx = (int)x >> (TILE_SHIFT + TMBLOCK_WIDTH_SHIFT);
+	int blocky = (int)y >> (TILE_SHIFT + TMBLOCK_HEIGHT_SHIFT);
+
+	if (blockx < 0 || blockx >= WORLD_TMBLOCKLOAD_WIDTH || blocky < 0 || blocky >= WORLD_TMBLOCKLOAD_HEIGHT) return NULL;
+
+	return world_tilemapblocks[blockx + (blocky * WORLD_TMBLOCKLOAD_WIDTH)];
+}
+
+
+
+static Bool update_entity_block(Entity* e)
+{
+	TilemapBlock* block = get_tilemapblock(e->x, e->y);
+
+	if (!block)
+		return FALSE; // Out of bounds
+
+	if (e->block != block)
+	{
+		// Entity has changed block
+		if (e->block)
+		{
+			// If this block isn't null then remove self from it
+			UnlinkFromList(&e->block->entities, &e->blockprev);
+			e->block = NULL;
+		}
+	} else
+	{
+		// In same block as before
+		return TRUE;
+	}
+
+	// Push self into new block
+	PushBackList(&block->entities, &e->blockprev);
+	e->block = block;
+
+	return TRUE;
+}
+
+
+
+
+
 List world_entities = { 0 };
 
 
@@ -111,9 +160,22 @@ void ClearWorldEntities()
 Entity* SpawnEntity(EntityTypeID type, float x, float y)
 {
 	Entity* e = ALLOC_TYPE(Entity);
-	e->type = &entity_types[type];
+	if (!e)
+	{
+		printf("ERROR! : Couldn't allocate memory for entity\n");
+		return NULL;
+	}
+
 	e->x = x;
 	e->y = y;
+
+	if (!update_entity_block(e))
+	{
+		FREE(e);
+		return NULL;
+	}
+
+	e->type = &entity_types[type];
 	e->flags = e->type->spawnflags;
 	e->clip_hitbox.offsetx = e->type->clip_hitbox.offsetx;
 	e->clip_hitbox.offsety = e->type->clip_hitbox.offsety;
@@ -156,6 +218,8 @@ void UpdateEntity(Entity* e)
 	if (!(e->flags & EF_NOPHYSICS))
 		UpdateEntityPhysics(e);
 
+	if (!update_entity_block(e))
+		e->flags |= EF_DELETE;
 }
 
 

@@ -2,6 +2,8 @@
 
 #include "utility.h"
 
+#include "tilemap.h"
+
 
 
 enum
@@ -65,6 +67,10 @@ extern const EntityType entity_types[NUM_ENTITYTYPES];
 typedef struct Entity
 {
 	ListLinksHeader(Entity);
+
+	struct Entity* blockprev;
+	struct Entity* blocknext;
+	TilemapBlock* block;
 
 	EntityFlags flags;
 	EntityType* type;

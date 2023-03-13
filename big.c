@@ -48,6 +48,8 @@ void BigUpdate()
 	//printf("%i, %i\n", ((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - 2, ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - 4);
 	ShiftTilemapAndEntities(((int)player->x >> (TMBLOCK_WIDTH_SHIFT + TILE_SHIFT)) - (WORLD_TMBLOCKLOAD_WIDTH >> 1), ((int)player->y >> (TMBLOCK_HEIGHT_SHIFT + TILE_SHIFT)) - (WORLD_TMBLOCKLOAD_HEIGHT >> 1));
 
+	printf("Num entities: %i\n", world_entities.count);
+
 	framecount++;
 }
 

@@ -32,7 +32,8 @@ void InitDebugTilemap()
 {
 	for (int i = 0; i < WORLD_TMBLOCKLOAD_COUNT; i++)
 	{
-		world_tilemapblocks[i] = MALLOC(sizeof(TilemapBlock));
+		world_tilemapblocks[i] = ALLOC_TYPE(TilemapBlock);
+
 		for (int y = 0; y < TMBLOCK_HEIGHT; y++)
 		{
 			for (int x = 0; x < TMBLOCK_WIDTH; x++)
