@@ -69,3 +69,13 @@ void ClearList(
 	List* const list,
 	void(*destroy_func)(void*)
 );
+
+
+
+// Returns a random number from 0 to 65535
+unsigned short Random();
+
+// Returns a random float in the range from min to max
+float RandomRange(float min, float max);
+
+void SetRandomSeed(unsigned short seed);

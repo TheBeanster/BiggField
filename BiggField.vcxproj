@@ -159,6 +159,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="physics.c" />
     <ClCompile Include="player.c" />
+    <ClCompile Include="random.c" />
     <ClCompile Include="system.c" />
     <ClCompile Include="texture.c" />
     <ClCompile Include="tilemap.c" />

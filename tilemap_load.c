@@ -343,7 +343,7 @@ const unsigned char tiletype_neighbours[256] =
 #define UPDATE_TILE(x, y)										\
 	type = tiletype_neighbours[type];							\
 	if (type & TTF_VARY)										\
-	type += (rand() & 3);										\
+	type += (Random() & 3);										\
 																\
 	type &= 0x7F;												\
 																\
@@ -358,6 +358,8 @@ const unsigned char tiletype_neighbours[256] =
 
 void DecorateBlockTiles(int bx, int by)
 {
+	SetRandomSeed(0);
+
 	TilemapBlock* block = GET_BLOCK(bx, by);
 
 	if (!block) return;

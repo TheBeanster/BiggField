@@ -9,6 +9,8 @@
 
 float gravity = 0.03f;
 
+#define MINIMUM_BOUNCE 0.1
+
 
 
 static void clip_entity(Entity* e)
@@ -213,16 +215,26 @@ static void clip_entity(Entity* e)
 
 	if (clippedx)
 	{
+		e->velx *= e->bounce; 
+		if (fabsf(e->velx) < MINIMUM_BOUNCE)
+			e->velx = 0.0f;
+
+		e->vely *= e->friction;
+
 		e->x = (float)x;
 		if (e->velx >= 0.0f)
 			e->flags |= EF_ONLWALL;
 		else
 			e->flags |= EF_ONRWALL;
-
-		e->velx = 0.0f; 
 	}
 	if (clippedy)
 	{
+		e->vely *= e->bounce; 
+		if (fabsf(e->vely) < MINIMUM_BOUNCE)
+			e->vely = 0.0f;
+
+		e->velx *= e->friction;
+
 		e->y = (float)y;
 		if (e->vely >= 0.0f)
 		{
@@ -231,8 +243,6 @@ static void clip_entity(Entity* e)
 		}
 		else
 			e->flags |= EF_ONCEILING;
-
-		e->vely = 0.0f; 
 	}
 
 }

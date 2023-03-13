@@ -20,6 +20,10 @@ const EntityType entity_types[NUM_ENTITYTYPES] =
 			6,
 			14
 		},
+		1.0f,
+		0.0f,
+		100.0f,
+
 		&Player_Update
 	},
 
@@ -29,11 +33,15 @@ const EntityType entity_types[NUM_ENTITYTYPES] =
 		
 		0,
 		{
-			0,
-			0,
-			8,
-			8
+			-3,
+			-3,
+			6,
+			6
 		},
+		0.995f,
+		-0.5f,
+		10.0f,
+
 		&TestEntity_Update
 		
 	},
@@ -100,7 +108,7 @@ void ClearWorldEntities()
 
 
 
-Entity* CreateEntity(EntityTypeID type, float x, float y)
+Entity* SpawnEntity(EntityTypeID type, float x, float y)
 {
 	Entity* e = ALLOC_TYPE(Entity);
 	e->type = &entity_types[type];
@@ -111,6 +119,9 @@ Entity* CreateEntity(EntityTypeID type, float x, float y)
 	e->clip_hitbox.offsety = e->type->clip_hitbox.offsety;
 	e->clip_hitbox.w = e->type->clip_hitbox.w;
 	e->clip_hitbox.h = e->type->clip_hitbox.h;
+	e->friction = e->type->friction;
+	e->bounce = e->type->bounce;
+	e->mass = e->type->mass;
 
 	if (type == ET_PLAYER)
 		player = e;
@@ -177,8 +188,5 @@ void RenderEntity(Entity* e)
 
 void TestEntity_Update(Entity* e)
 {
-	if (keyboard_inputs[SDL_SCANCODE_LEFT]) e->velx -= 0.02f;
-	if (keyboard_inputs[SDL_SCANCODE_RIGHT]) e->velx += 0.02f;
-	if (keyboard_inputs[SDL_SCANCODE_UP]) e->vely -= 0.02f;
-	if (keyboard_inputs[SDL_SCANCODE_DOWN]) e->vely += 0.02f;
+
 }

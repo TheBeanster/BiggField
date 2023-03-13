@@ -78,6 +78,9 @@
     <ClCompile Include="texture.c">
       <Filter>Source Files\Graphics\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="random.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">

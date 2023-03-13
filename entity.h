@@ -50,6 +50,9 @@ typedef struct
 		char w;
 		char h;
 	} clip_hitbox;
+	float friction;
+	float bounce;
+	float mass;
 
 	EntityUpdateFunction update_function;
 
@@ -78,7 +81,9 @@ typedef struct Entity
 		char w;
 		char h;
 	} clip_hitbox;
-	
+	float friction;
+	float bounce;
+	float mass;
 
 } Entity;
 
@@ -94,7 +99,7 @@ void ClearWorldEntities();
 
 
 
-Entity* CreateEntity(EntityTypeID type, float x, float y);
+Entity* SpawnEntity(EntityTypeID type, float x, float y);
 
 void DestroyEntity(Entity* e);
 
