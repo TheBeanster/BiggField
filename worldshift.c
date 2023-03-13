@@ -31,6 +31,7 @@ void ShiftTilemapAndEntities(int shiftx, int shifty)
 			else
 			{
 				TilemapBlock** loadblock = GetWorldBlockPtr(WORLD_TMBLOCKLOAD_WIDTH - x - 1, WORLD_TMBLOCKLOAD_HEIGHT - y - 1);
+				DeleteBlockEntities(*loadblock);
 				FREE(*loadblock); // Delete the old block
 				newblocks[x + (y * WORLD_TMBLOCKLOAD_WIDTH)] = LoadBlock(
 					world_posx - (WORLD_TMBLOCKLOAD_WIDTH >> 1) - 1 + x,

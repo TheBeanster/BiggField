@@ -6,6 +6,8 @@
 
 #include "camera.h"
 
+#include "entity.h"
+
 
 
 TilemapBlock* world_tilemapblocks[WORLD_TMBLOCKLOAD_COUNT] = { 0 };
@@ -90,6 +92,19 @@ int world_block_height = 0;
 int world_block_count = 0;
 
 
+
+void DeleteBlockEntities(TilemapBlock* block)
+{
+	if (!block) return;
+	Entity* iterator = block->entities.begin;
+	while (iterator)
+	{
+		Entity* del = iterator;
+		iterator = iterator->blocknext;
+		UnlinkFromList(&world_entities, del);
+		FREE(del);
+	}
+}
 
 
 
