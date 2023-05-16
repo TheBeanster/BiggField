@@ -68,8 +68,7 @@ typedef struct Entity
 {
 	ListLinksHeader(Entity);
 
-	struct Entity* blockprev;
-	struct Entity* blocknext;
+	ListNode blocklinks;
 	TilemapBlock* block;
 
 	EntityFlags flags;

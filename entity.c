@@ -78,7 +78,7 @@ static Bool update_entity_block(Entity* e)
 		if (e->block)
 		{
 			// If this block isn't null then remove self from it
-			UnlinkFromList(&e->block->entities, &e->blockprev);
+			UnlinkFromList(&e->block->entities, &e->blocklinks.prev);
 			e->block = NULL;
 		}
 	} else
@@ -88,7 +88,7 @@ static Bool update_entity_block(Entity* e)
 	}
 
 	// Push self into new block
-	PushBackList(&block->entities, &e->blockprev);
+	PushBackList(&block->entities, &e->blocklinks.prev);
 	e->block = block;
 
 	return TRUE;
@@ -119,6 +119,7 @@ void UpdateWorldEntities()
 			Entity* del = iterator;
 			iterator = iterator->next;
 			UnlinkFromList(&world_entities, del);
+			UnlinkFromList(&del->block->entities, &del->blocklinks);
 			DestroyEntity(del);
 		} else
 			iterator = iterator->next;

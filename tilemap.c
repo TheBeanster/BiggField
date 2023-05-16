@@ -100,7 +100,7 @@ void DeleteBlockEntities(TilemapBlock* block)
 	while (iterator)
 	{
 		Entity* del = iterator;
-		iterator = iterator->blocknext;
+		iterator = iterator->blocklinks.next;
 		UnlinkFromList(&world_entities, del);
 		FREE(del);
 	}
